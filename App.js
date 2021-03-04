@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 export default function App() {
   return (
     <View style={styles.container}>
-      <Text>Saludos College Marketplace!</Text>
+      <Text>Saludos Terricolas!</Text>
       <Text>Aplicación para Tiendas</Text>
       <StatusBar style="auto" />
     </View>
