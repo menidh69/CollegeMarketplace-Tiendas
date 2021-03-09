@@ -81,17 +81,23 @@ const Landing = ({navigation})=>{
         </Text>
            <Image style={styles.img} source={Carrito}></Image>
 
-      <TouchableOpacity style={styles.button} onPress={() =>
-        navigation.navigate('Login')} >
+      <TouchableOpacity style={styles.button} >
         <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
               Login
         </Text>
         </TouchableOpacity>
 
         <TouchableOpacity text="Siguiente" onPress={() =>
-        navigation.navigate('Registro', {screen:"RegistroDatos"})} style={styles.button}>
+        navigation.navigate('RegistroDatos')} style={styles.button}>
             <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
                 Registrate
+            </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity text="Pedidos" onPress={() =>
+        navigation.navigate('Pedidos')} style={styles.titleText}>
+            <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
+                Pedidos
             </Text>
         </TouchableOpacity>
       </View>
