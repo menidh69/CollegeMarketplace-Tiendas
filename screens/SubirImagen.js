@@ -1,12 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { Image, Text, View, StyleSheet, TouchableOpacity, Button, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
+import {RegistroContext} from '../RegistroContext';
 
 
-const SubirImagen = ({navigation})=>{
+const SubirImagen = ({navigation, route})=>{
     
     const [image, setImage] = useState(null);
+    const {datos, onChangeText} = useContext(RegistroContext)
+
 
   useEffect(() => {
     (async () => {
@@ -30,7 +33,9 @@ const SubirImagen = ({navigation})=>{
     console.log(result);
 
     if (!result.cancelled) {
+      onChangeText(result.uri)
       setImage(result.uri);
+      
     }
   };
     
@@ -111,7 +116,7 @@ const SubirImagen = ({navigation})=>{
             Sube una imagen de tu tienda para que te puedan identificar mejor
         </Text>
         <View style={styles.placeholder}>
-                {image && <Image source={{ uri: image }} style={{ width: 320, height: 240, "textAlign": "center"}} />}
+                {image && <Image source={{ uri: image }} style={{ width: 320, height: 240}} />}
         </View>
         <View style={styles.inputView}>
             <TouchableOpacity style={styles.upload} onPress={pickImage}>
