@@ -4,7 +4,8 @@ const Stack = createStackNavigator();
 import RegistroDatos from './RegistroDatos';
 import RegistroTienda from './RegistroTienda';
 import SubirImagen from './SubirImagen';
-import Confirmar from './Confirmar'
+import Confirmar from './Confirmar';
+import RegistroExitoso from './RegistroExitoso';
 
 const Registro = ({navigation})=>{
     
@@ -44,6 +45,11 @@ const Registro = ({navigation})=>{
       name="Confirmar"
       component={Confirmar}
       options={{ title: "Confirmar" }}
+    />
+    <Stack.Screen
+      name="Exito"
+      component={RegistroExitoso}
+      options={{ title: "Exito" }}
     />
     </React.Fragment>
     )
