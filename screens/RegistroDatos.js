@@ -1,40 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity } from 'react-native';
+import {RegistroContext} from '../RegistroContext';
+
+const RegistroDatos = ({navigation, route})=>{
 
 
-const RegistroDatos = ({navigation})=>{
-    const [datos, setDatos] = useState({
-        "nombre": "",
-        "apellido": "",
-        "contraseña": "",
-        "repetirContraseña": "",
-        "telefono": "",
-        "universidad": ""
-    })
-
-    const onChangeText = (text, form)=>{
-        switch(form){
-            case "nombre":
-                setDatos({...datos, "nombre": text})
-                return
-            case " apellido":
-                setDatos({...datos, "apellido": text})
-                return
-            case "contraseña":
-                setDatos({...datos, "contraseña": text})
-                return
-            case "repetirContraseña":
-                setDatos({...datos, "repetirContraseña": text})
-                return
-            case "telefono":
-                setDatos({...datos, "telefono": text})
-                return
-            case "universidad":
-                setDatos({...datos, "universidad": text})
-                return
-        }
-        
-    }
+  
 
     const styles = StyleSheet.create({
         baseText: {
@@ -87,6 +58,7 @@ const RegistroDatos = ({navigation})=>{
             paddingTop: 5
         }
       });
+      const {datos, onChangeText} = useContext(RegistroContext)
 
     return(
         <View style={styles.container}>
@@ -99,7 +71,7 @@ const RegistroDatos = ({navigation})=>{
 
         <View style={styles.inputView}>
         <Text style={styles.label}>
-            Nombre:
+            Nombre*:
         </Text>
         <TextInput
         style={styles.input}
@@ -110,18 +82,28 @@ const RegistroDatos = ({navigation})=>{
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Apellidos:
+            Apellidos*:
         </Text>
       <TextInput
         style={styles.input}
-        onChangeText={text => onChangeText(text, "apellido")}
-        value={datos.apellido}
+        onChangeText={text => onChangeText(text, "apellidos")}
+        value={datos.apellidos}
+      />
+      </View>
+      <View style={styles.inputView}>
+       <Text style={styles.label}>
+            Correo*:
+        </Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={text => onChangeText(text, "email")}
+        value={datos.email}
       />
       </View>
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Contraseña:
+            Contraseña*:
         </Text>
       <TextInput
         style={styles.input}
@@ -132,7 +114,7 @@ const RegistroDatos = ({navigation})=>{
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Repetir Contraseña:
+            Repetir Contraseña*:
         </Text>
       <TextInput
         style={styles.input}
@@ -143,7 +125,7 @@ const RegistroDatos = ({navigation})=>{
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Telefono:
+            Telefono*:
         </Text>
       <TextInput
         style={styles.input}
@@ -152,18 +134,9 @@ const RegistroDatos = ({navigation})=>{
       />
       </View>
 
-      <View style={styles.inputView}>
-       <Text style={styles.label}>
-            Universidad:
-        </Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={text => onChangeText(text, "universidad")}
-        value={datos.universidad}
-      />
-      </View>
+      
       <TouchableOpacity onPress={() =>
-        navigation.navigate('RegistroTienda')
+        navigation.navigate('RegistroTienda', )
       }
       text="Siguiente" style={styles.button}>
       <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
