@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { UserContext, ContexProvider } from '../UserContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {NewUserContext} from '../NewUserContext';
+import { TiendaContext } from "../TiendaContext";
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ const Login = () => {
 
 const Body = () => {
     const { user, setUser } = useContext(NewUserContext);
+    const {tienda, setTienda} = useContext(TiendaContext);
     const navigation = useNavigation();
 
     const onSubmit = async data => {
@@ -40,7 +42,13 @@ const Body = () => {
                     } else {
                         AsyncStorage.setItem("token.tuw", result.user.token)
                         setUser(result.user);
-                       
+
+                        const response = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1//miTienda/${result.user.id}`)
+                        const it = await response.json();
+                        console.log(it[0])
+                        setTienda(it[0])
+                        
+                        
                         navigation.navigate('Home', {id: result.user.id})
                     }
                 })

@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useNavigation } from "@react-navigation/native";
 import {NewUserContext} from '../NewUserContext'
+import Productos from './Productos';
 
 
 
@@ -39,7 +40,7 @@ const Home = ({ route }) => {
                 />
                 <Tab.Screen
                     name='Productos'
-                    children={() => <HomeScreen/>}
+                    children={() => <Productos/>}
                 />
                 <Tab.Screen
                     name='Pedidos'
