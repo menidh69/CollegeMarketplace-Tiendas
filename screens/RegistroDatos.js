@@ -1,10 +1,32 @@
 import React, {useState, useContext} from 'react';
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity } from 'react-native';
 import {RegistroContext} from '../RegistroContext';
+import {emailValidation, isEmptyNull, repeatPassword} from '../validation/formValidation';
+import ErrorModal from '../components/ErrorModal';
 
 const RegistroDatos = ({navigation, route})=>{
-
-
+  const {datos, onChangeText} = useContext(RegistroContext)
+  const [showmodal, setShowModal] = useState(false)
+  const [modalMessage, setModalMessage] = useState("")
+    const handleNext = ()=>{
+      if(isEmptyNull(datos.nombre)||isEmptyNull(datos.apellidos)||isEmptyNull(datos.email)||isEmptyNull(datos.contraseña)
+      ||isEmptyNull(datos.repetirContraseña)||isEmptyNull(datos.telefono)){
+        setShowModal(true);
+        setModalMessage("Debes llenar todos los campos")
+        return
+      }
+      if(!emailValidation(datos.email)){
+        setModalMessage("El formato de tu correo es incorrecto")
+        setShowModal(true);
+        return
+      }
+      if(!repeatPassword(datos.contraseña, datos.repetirContraseña)){
+        setShowModal(true);
+        setModalMessage("Tus contraseñas no coinciden")
+        return
+      }
+      return navigation.navigate('RegistroTienda', )
+    }
   
 
     const styles = StyleSheet.create({
@@ -58,7 +80,6 @@ const RegistroDatos = ({navigation, route})=>{
             paddingTop: 5
         }
       });
-      const {datos, onChangeText} = useContext(RegistroContext)
 
     return(
         <View style={styles.container}>
@@ -105,7 +126,7 @@ const RegistroDatos = ({navigation, route})=>{
        <Text style={styles.label}>
             Contraseña*:
         </Text>
-      <TextInput
+      <TextInput secureTextEntry={true}
         style={styles.input}
         onChangeText={text => onChangeText(text, "contraseña")}
         value={datos.contraseña}
@@ -117,6 +138,7 @@ const RegistroDatos = ({navigation, route})=>{
             Repetir Contraseña*:
         </Text>
       <TextInput
+      secureTextEntry={true}
         style={styles.input}
         onChangeText={text => onChangeText(text, "repetirContraseña")}
         value={datos.repetirContraseña}
@@ -133,16 +155,16 @@ const RegistroDatos = ({navigation, route})=>{
         value={datos.telefono}
       />
       </View>
-
       
       <TouchableOpacity onPress={() =>
-        navigation.navigate('RegistroTienda', )
+        handleNext()
       }
       text="Siguiente" style={styles.button}>
       <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
             Siguiente
         </Text>
           </TouchableOpacity>
+          <ErrorModal setShow={setShowModal} show={showmodal} message={modalMessage}></ErrorModal>
       </View>
     )
 

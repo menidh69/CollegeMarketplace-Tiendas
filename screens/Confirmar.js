@@ -92,18 +92,20 @@ const Confirmar = ({navigation})=>{
       const [modalVisible, setModalVisible] = useState(false);
       const registroPost = async ()=>{
         const body = datos
-        const request = await fetch("http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas",
+        const response = await fetch("http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas",
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(body)
         })
-        const response = await request.json();
-        console.log(response)
-        if(response.message=="tienda creada con exito "){
-            navigation.navigate('Exito')
-        }else{
+        const responseBody = await response.json();
+        console.log(responseBody)
+        if(response.status==400){
             setModalVisible(true)
+            console.log(responseBody)
+
+        }else{
+            navigation.navigate('Exito')
         }
     }
     return(
@@ -122,14 +124,14 @@ const Confirmar = ({navigation})=>{
             Apellido:
         </Text>
         <Text style={styles.basicText}>
-            {datos.apellido}
+            {datos.apellidos}
         </Text>
 
         <Text style={styles.label}>
             Correo:
         </Text>
         <Text style={styles.basicText}>
-            {datos.correo}
+            {datos.email}
         </Text>
 
         <Text style={styles.label}>

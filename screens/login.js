@@ -5,8 +5,8 @@ import { useForm } from 'react-hook-form';
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { UserContext, ContexProvider } from '../UserContext';
-import AsyncStorage from '@react-native-community/async-storage'
-
+import AsyncStorage from '@react-native-community/async-storage';
+import {NewUserContext} from '../NewUserContext';
 
 const Stack = createStackNavigator();
 
@@ -20,7 +20,7 @@ const Login = () => {
 }
 
 const Body = () => {
-    const { user, setUser } = useContext(UserContext);
+    const { user, setUser } = useContext(NewUserContext);
     const navigation = useNavigation();
 
     const onSubmit = async data => {

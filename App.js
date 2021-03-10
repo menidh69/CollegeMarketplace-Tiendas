@@ -7,9 +7,13 @@ const Stack = createStackNavigator();
 import Registro from './screens/Registro';
 import Landing from './screens/Landing';
 import Login from './screens/login';
-import Home from './screens/Home'
+import Home from './screens/Home';
+import {NewUserContext} from './NewUserContext'
 
 export default function App() {
+    const [user, setUser] = useState(null)
+
+
   function getHeaderTitle(route) {
     const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
 
@@ -26,7 +30,10 @@ export default function App() {
             return 'Buscar';
     }
 }
+
+
   return (
+    <NewUserContext.Provider value={{user, setUser}}>
     <NavigationContainer>
     <Stack.Navigator>
 
@@ -66,6 +73,7 @@ export default function App() {
       />
     </Stack.Navigator>
     </NavigationContainer>
+    </NewUserContext.Provider>
   );
 }
 

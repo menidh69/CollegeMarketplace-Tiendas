@@ -7,6 +7,7 @@ import Confirmar from './Confirmar';
 const RegistroStack = createStackNavigator();
 import {RegistroContext} from '../RegistroContext';
 import RegistroExitoso from './RegistroExitoso';
+import {numberValidation, textValidation, emailValidation, limit} from '../validation/formValidation'
 
 const Registro = ()=>{
     
@@ -17,44 +18,61 @@ const Registro = ()=>{
         "repetirContraseña": "",
         "telefono": "",
         "email": "",
-        "id_universidad": "",
+        "id_universidad": "1",
         "nombre_universidad": "",
         "nombre_tienda": "",
         "horario": "",
         "url_imagen": "",
-        "tipo_tienda": "",
+        "tipo_tienda": "1",
         "tarjeta": "false"
     })
+
+    
+
     const onChangeText = (text, form)=>{
-        console.log(text + form)
         switch(form){
             case "nombre":
-                setDatos({...datos, "nombre": text})
-                console.log(text + form)
+                if(textValidation(text) && !limit(text, 20)){
+                    setDatos({...datos, "nombre": text})
+                }
                 return
-            case "apellido":
-                setDatos({...datos, "apellido": text})
+            case "apellidos":
+                if(textValidation(text) && !limit(text, 30)){
+                setDatos({...datos, "apellidos": text})
+                }
                 return
-                case "correo":
-                    setDatos({...datos, "correo": text})
+                case "email":
+                    if(!limit(text, 30)){
+                        setDatos({...datos, "email": text})
+                    }
                     return
             case "contraseña":
+                if(!limit(text, 20)){
                 setDatos({...datos, "contraseña": text})
+                }
                 return
             case "repetirContraseña":
+                if(!limit(text, 20)){
                 setDatos({...datos, "repetirContraseña": text})
+                }
                 return
             case "telefono":
-                setDatos({...datos, "telefono": text})
+                if(numberValidation(text) && !limit(text, 10)){
+                    setDatos({...datos, "telefono": text})
+                }       
                 return
             case "universidad":
                 setDatos({...datos, "universidad": text})
                 return
             case "nombre_tienda":
+                if(!limit(text, 25)){
                 setDatos({...datos, "nombre_tienda": text})
+                }
                 return
             case "horario":
+                if(!limit(text, 20)){
                 setDatos({...datos, "horario": text})
+                }
                 return
             case "imagen_url":
                 setDatos({...datos, "imagen_url": text})
@@ -79,6 +97,8 @@ const Registro = ()=>{
       component={RegistroDatos}
       options={{ title: "Sign Up"}}
     />
+
+    
      <RegistroStack.Screen
       name="RegistroTienda"
       component={RegistroTienda}
