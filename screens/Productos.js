@@ -10,6 +10,8 @@ import { NewUserContext } from '../NewUserContext';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TiendaContext } from '../TiendaContext'
 import AgregarProducto from './AgregarProducto'
+import EditarProducto from './EditarProducto'
+import EliminarProducto from './EliminarProducto'
 
 const Stack = createStackNavigator();
 
@@ -36,6 +38,32 @@ const Productos = () => {
                 component={AgregarProducto}
                 options={{
                     title: 'Agregar nuevo producto',
+                    headerStyle: {
+                        backgroundColor: '#C0D5E1',
+                        shadowOffset: {
+                            height: 0
+                        }
+                    }
+                }}
+            />
+            <Stack.Screen
+                name="EditarProducto"
+                component={EditarProducto}
+                options={{
+                    title: 'Editar producto',
+                    headerStyle: {
+                        backgroundColor: '#C0D5E1',
+                        shadowOffset: {
+                            height: 0
+                        }
+                    }
+                }}
+            />
+            <Stack.Screen
+                name="EliminarProducto"
+                component={EliminarProducto}
+                options={{
+                    title: 'Eliminar producto',
                     headerStyle: {
                         backgroundColor: '#C0D5E1',
                         shadowOffset: {
@@ -79,19 +107,21 @@ const ProductosScreen = () => {
             <Text style={styles.titulo}>{items.length > 0 ? 'Gestiona tus Productos' : 'No hay Productos'}</Text>
 
 
-            <ScrollView style={styles.listaContainer}>
+            {/* <ScrollView style={styles.listaContainer}> */}
 
                 <FlatList
+                style={styles.listaContainer}
                     data={items}
                     renderItem={({ item }) => <Producto producto={item} />}
                 />
-            </ScrollView>
+            {/* </ScrollView> */}
         </View>
     );
 }
 
 
 const Producto = ({ producto }) => {
+    const navigation = useNavigation();
     return (
         <>
             <View style={styles.productoContainer} >
@@ -103,10 +133,10 @@ const Producto = ({ producto }) => {
                 </View>
                 <View style={{ width: "100%", alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
                     <TouchableOpacity style={styles.guardarBtn}>
-                        <Text style={styles.guardarText}>Editar</Text>
+                        <Text style={styles.guardarText} onPress={() => navigation.navigate('EditarProducto', {producto: producto})}>Editar</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={styles.eliminarBtn}>
-                        <Text style={styles.eliminarText}>Eliminar</Text>
+                        <Text style={styles.eliminarText} onPress={() => navigation.navigate('EliminarProducto', {producto: producto}) }>Eliminar</Text>
                     </TouchableOpacity>
 
                 </View>
