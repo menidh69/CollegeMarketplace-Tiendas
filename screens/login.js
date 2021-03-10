@@ -7,6 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { UserContext, ContexProvider } from '../UserContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {NewUserContext} from '../NewUserContext';
+import {isEmptyNull} from '../validation/formValidation';
+import ErrorModal from '../components/ErrorModal'
 
 const Stack = createStackNavigator();
 
@@ -22,9 +24,15 @@ const Login = () => {
 const Body = () => {
     const { user, setUser } = useContext(NewUserContext);
     const navigation = useNavigation();
+    const [showmodal, setShowModal] = useState(false)
+  const [modalMessage, setModalMessage] = useState("")
 
     const onSubmit = async data => {
-
+        if(isEmptyNull(data.email) || isEmptyNull(data.contra)){
+            setShowModal(true);
+            setModalMessage("El correo o la contraseña son incorrectos")
+            return 
+        }
         try {
             const body = data;
             const response = await fetch('http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/usuario/login',
@@ -33,17 +41,20 @@ const Body = () => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)
                 })
-                .then(async resp => {
-                    const result = await resp.json()
-                    if (result.error) {
-                        console.log(result.error)
-                    } else {
-                        AsyncStorage.setItem("token.tuw", result.user.token)
-                        setUser(result.user);
-                       
-                        navigation.navigate('Home', {id: result.user.id})
+                
+            const result = await response.json()
+            if (response.status!=200) {
+                setShowModal(true);
+                setModalMessage(result.message || result.error)
+                console.log(result.error)
+                return
+            } else {
+                AsyncStorage.setItem("token.tuw", result.user.token)
+                setUser(result.user);
+                
+                navigation.navigate('Home', {id: result.user.id})
                     }
-                })
+        
         } catch (err) {
             console.log(err)
         }
@@ -108,6 +119,7 @@ const Body = () => {
                     <Text style={styles.loginText}>Conectarse con Facebook</Text>
                 </TouchableOpacity>
             </View>
+            <ErrorModal setShow={setShowModal} show={showmodal} message={modalMessage}></ErrorModal>
         </View>
     );
 
