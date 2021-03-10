@@ -6,14 +6,13 @@ import { UserContext } from '../UserContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useNavigation } from "@react-navigation/native";
-
+import {NewUserContext} from '../NewUserContext'
 
 
 
 
 
 const Home = ({ route }) => {
-
     const [items, setItems] = useState([]);
 
 
@@ -36,23 +35,23 @@ const Home = ({ route }) => {
             <Tab.Navigator>
                 <Tab.Screen
                     name='Mi Tienda'
-                    children={() => <HomeScreen user={items} />}
+                    children={() => <HomeScreen/>}
                 />
                 <Tab.Screen
                     name='Productos'
-                    children={() => <HomeScreen user={items} />}
+                    children={() => <HomeScreen/>}
                 />
                 <Tab.Screen
                     name='Pedidos'
-                    children={() => <HomeScreen user={items} />}
+                    children={() => <HomeScreen/>}
                 />
                 <Tab.Screen
                     name='Ventas'
-                    children={() => <HomeScreen user={items} />}
+                    children={() => <HomeScreen/>}
                 />
                 <Tab.Screen
                     name='Mi Cuenta'
-                    children={() => <HomeScreen user={items} />}
+                    children={() => <HomeScreen/>}
                 />
 
             </Tab.Navigator>
@@ -61,8 +60,8 @@ const Home = ({ route }) => {
     );
 }
 
-const HomeScreen = ({ user }) => {
-
+const HomeScreen = () => {
+    const {user} = useContext(NewUserContext)
     return (
         <>
             <View>

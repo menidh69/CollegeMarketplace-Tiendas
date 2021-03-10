@@ -3,10 +3,16 @@ import { useEffect } from 'react';
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity } from 'react-native';
 import {RegistroContext} from '../RegistroContext';
 import {Picker} from '@react-native-picker/picker';
+import {emailValidation, isEmptyNull, repeatPassword} from '../validation/formValidation';
+import ErrorModal from '../components/ErrorModal';
 
 
 const RegistroTienda = ({navigation, route})=>{
   const [items, setItems] = useState([]);
+  const {datos, onChangeText, setDatos} = useContext(RegistroContext)
+  const [showmodal, setShowModal] = useState(false)
+  const [modalMessage, setModalMessage] = useState("")
+
     useEffect(()=>{
       let isMounted = true;
       fetchitems()
@@ -17,6 +23,15 @@ const RegistroTienda = ({navigation, route})=>{
       })
      return ()=>isMounted=false
     }, [])
+
+    const handleNext=()=>{
+      if(isEmptyNull(datos.nombre_tienda) || isEmptyNull(datos.horario)){
+        setShowModal(true);
+        setModalMessage("Debes llenar todos los campos")
+        return
+      }
+      return navigation.navigate('SubirImagen');
+    }
 
     const fetchitems =async()=>{
       const datos = await fetch('http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/universidades');
@@ -94,7 +109,6 @@ const RegistroTienda = ({navigation, route})=>{
             paddingTop: 5
         }
       });
-      const {datos, onChangeText, setDatos} = useContext(RegistroContext)
 
 
     return(
@@ -179,7 +193,7 @@ const RegistroTienda = ({navigation, route})=>{
 
           }>
         {items.map(item=>(
-          <Picker.Item label={item.nombre} value={item.id} />
+          <Picker.Item key={item.id} label={item.nombre} value={item.id} />
         )
         )}
         
@@ -195,12 +209,13 @@ const RegistroTienda = ({navigation, route})=>{
         </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity text="Siguiente" onPress={() =>
-        navigation.navigate('SubirImagen')} style={styles.button}>
+        <TouchableOpacity text="Siguiente" onPress={() => handleNext()} style={styles.button}>
             <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
                 Siguiente
             </Text>
         </TouchableOpacity>
+        <ErrorModal setShow={setShowModal} show={showmodal} message={modalMessage}></ErrorModal>
+
       </View>
     )
 
