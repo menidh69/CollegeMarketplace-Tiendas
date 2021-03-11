@@ -36,38 +36,62 @@ export default function Pedidos() {
   const fetchitems = async (id) => {
     const data = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas/pedidosPendientes/${tienda.id}`);
     const it = await data.json();
-    setItems(it.result)
+    const order = getOrdenes(it.result)
+    setItems(order)
     return
 }
 
   const entregar = async (id_orden)=>{
-    const body = "";
     const data = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas/entregar/${id_orden}`,
     {
       method: "PUT",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(body)
+      headers: {"Content-Type":"application/json"}
   });  
-  if(!data.status==200){
+  const it = await data.json();
+  if(data.status==400){
     console.log("Err:" + data)
   }else{
-    const it = await data.json();
     console.log(it);
     setItems(list.filter(item => item.id !== id_orden));
   }
   }
   console.log(items)
+  const getOrdenes = (data)=>{
+    let ordenesTodas = []
+    let ordenes = []
+    data.map(item=>{
+      if(!ordenes.includes(item.id))
+        ordenes.push(item.id)
+    });
+    ordenes.map(orden=>{
+      let orden_items = []
+      data.map(item=>{
+        if(orden==item.id){
+          orden_items.push(item)
+        }
+      })
+      ordenesTodas.push(orden_items)
+    })
+    return ordenesTodas
+  }
+
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Pedidos pendientes</Text>
       {((items.length>0))? 
       <FlatList
         data={items}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item[0].id}
         renderItem={({ item }) => (
-          <View style={styles.listItem}>
-            <Text style={styles.listItemText}>{item.nombre_producto}: {item.nombre} {item.apellidos} </Text>
-          <TouchableOpacity text="Ver" onPress={() => entregar(item.id)} style={styles.button}> 
+          <View style={{...styles.listItem, flex:1, flexDirection:'column'}}>
+            <Text style={styles.listItemText}>Orden: {item[0].id}: {item.nombre} {item.apellidos} </Text>
+            <Text style={styles.listItemText}>Cliente: {item[0].nombre} {item[0].apellidos} </Text>
+            <View style={{flex:1}}>
+            {item.map(producto=>(
+              <Text>{producto.nombre_producto}</Text>
+        ))}
+        </View>
+          <TouchableOpacity text="Ver" onPress={() => entregar(item[0].id)} style={styles.button}> 
             <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
                 Entregar
             </Text>
@@ -113,11 +137,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderBottomColor: 'black',
     borderBottomWidth: 1,
-    flexDirection: 'row',
     flexWrap:'wrap',
     padding: 20,
     alignItems: 'center',
-    width: '95%',
+    width: '100%',
     justifyContent: 'space-between'
   },
   listItemText: {
