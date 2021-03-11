@@ -1,7 +1,7 @@
 import React, {useState, useContext} from 'react';
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity } from 'react-native';
 import {RegistroContext} from '../RegistroContext';
-import {emailValidation, isEmptyNull, repeatPassword} from '../validation/formValidation';
+import {emailValidation, isEmptyNull, repeatPassword} from '../functions/formValidation';
 import ErrorModal from '../components/ErrorModal';
 
 const RegistroDatos = ({navigation, route})=>{

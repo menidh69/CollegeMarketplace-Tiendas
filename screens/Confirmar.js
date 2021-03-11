@@ -1,6 +1,8 @@
 import React, {useState, useContext} from 'react';
-import { View, Modal, Text, TouchableOpacity, StyleSheet, TouchableHighlight } from 'react-native';
+import { View, Modal, Text, TouchableOpacity, StyleSheet, TouchableHighlight, Alert, ActivityIndicator } from 'react-native';
 import {RegistroContext} from '../RegistroContext';
+import * as firebase from 'firebase';
+
 
 const Confirmar = ({navigation})=>{
     const styles = StyleSheet.create({
@@ -84,14 +86,52 @@ const Confirmar = ({navigation})=>{
           },
       });
       const {datos} = useContext(RegistroContext)
+      const [modalText, setModalText] = useState("")
+      const [isLoading, setIsLoading] = useState(false)
+      const [isDisabled, setIsDisabled] = useState(false)
       const tiposDeTienda = {
           "1": "Cooperativa",
           "2": "Cafeteria",
           "3": "Puesto"
       }
       const [modalVisible, setModalVisible] = useState(false);
-      const registroPost = async ()=>{
-        const body = datos
+
+      const uploadImageTienda = async ()=>{
+        setIsDisabled(true)
+        setIsLoading(true);
+        setModalVisible(true);
+        const response = await fetch(datos.uri);
+        const blob = await response.blob();
+        var uploadTask =  firebase.storage().ref().child("images/" + datos.nombre_tienda).put(blob)
+        uploadTask.on('state_changed', 
+        (snapshot) => {
+            // Observe state change events such as progress, pause, and resume
+            // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+            var progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+
+            console.log('Upload is ' + progress + '% done');
+            setModalText("Espera un momento porfavor... "+progress+"%")
+
+            switch (snapshot.state) {
+            case firebase.storage.TaskState.PAUSED: // or 'paused'
+                console.log('Upload is paused');
+                break;
+            case firebase.storage.TaskState.RUNNING: // or 'running'
+                console.log('Upload is running');
+                break;
+            }
+        }, 
+        (error) => {
+            // Handle unsuccessful uploads
+        }, 
+        () => {
+            // Handle successful uploads on complete
+            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+            uploadTask.snapshot.ref.getDownloadURL().then(async(downloadURL) => {
+            console.log('File available at', downloadURL);
+            const body = datos;
+            body.url_imagen = downloadURL;
+        console.log(body)
         const response = await fetch("http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas",
         {
             method: "POST",
@@ -103,11 +143,19 @@ const Confirmar = ({navigation})=>{
         if(response.status==400){
             setModalVisible(true)
             console.log(responseBody)
-
+            setModalText("Ocurrió un error: "+responseBody.error)
+            setIsDisabled(false)
         }else{
+            setIsLoading(false);
+            setModalText("");
+            setModalVisible(false)
             navigation.navigate('Exito')
         }
-    }
+            });
+        
+      }
+        )
+}
     return(
         <View style={styles.container}>
             <Text style={styles.titleText}>Confirmar datos</Text>
@@ -168,13 +216,13 @@ const Confirmar = ({navigation})=>{
 
 
             <TouchableOpacity onPress={() =>
-        navigation.navigate('SubirImagen')} style={styles.button} >
+        navigation.navigate('SubirImagen')} disabled={isDisabled} style={styles.button} >
         <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
                 Anterior
         </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity text="Siguiente" onPress={registroPost} style={styles.button}>
+        <TouchableOpacity text="Siguiente" disabled={isDisabled} onPress={()=>uploadImageTienda()} style={styles.button}>
             <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
                 Confirmar
             </Text>
@@ -189,8 +237,8 @@ const Confirmar = ({navigation})=>{
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.modalText}>Ha ocurrido un error con el registro, reintentalo mas tarde</Text>
-
+            <Text style={styles.modalText}>{modalText}</Text>
+            {isLoading && <ActivityIndicator size="large" /> }
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
               onPress={() => {

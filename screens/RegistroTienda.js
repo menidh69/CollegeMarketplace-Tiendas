@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity } from 'react-native';
 import {RegistroContext} from '../RegistroContext';
 import {Picker} from '@react-native-picker/picker';
-import {emailValidation, isEmptyNull, repeatPassword} from '../validation/formValidation';
+import {emailValidation, isEmptyNull, repeatPassword} from '../functions/formValidation';
 import ErrorModal from '../components/ErrorModal';
 
 

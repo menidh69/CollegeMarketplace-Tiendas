@@ -9,10 +9,12 @@ import Landing from './screens/Landing';
 import Login from './screens/login';
 import Home from './screens/Home';
 import {NewUserContext} from './NewUserContext'
+import * as firebase from 'firebase';
+import ApiKeys from './constants/ApiKeys'
 
 export default function App() {
     const [user, setUser] = useState(null)
-
+    if(!firebase.apps.length){firebase.initializeApp(ApiKeys.FirebaseConfig)}
 
   function getHeaderTitle(route) {
     const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
