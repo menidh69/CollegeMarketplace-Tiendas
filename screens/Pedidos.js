@@ -83,9 +83,14 @@ export default function Pedidos() {
         data={items}
         keyExtractor={item => item[0].id}
         renderItem={({ item }) => (
-          <View style={styles.listItem}>
+          <View style={{...styles.listItem, flex:1, flexDirection:'column'}}>
             <Text style={styles.listItemText}>Orden: {item[0].id}: {item.nombre} {item.apellidos} </Text>
             <Text style={styles.listItemText}>Cliente: {item[0].nombre} {item[0].apellidos} </Text>
+            <View style={{flex:1}}>
+            {item.map(producto=>(
+              <Text>{producto.nombre_producto}</Text>
+        ))}
+        </View>
           <TouchableOpacity text="Ver" onPress={() => entregar(item[0].id)} style={styles.button}> 
             <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
                 Entregar
@@ -132,11 +137,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderBottomColor: 'black',
     borderBottomWidth: 1,
-    flexDirection: 'row',
     flexWrap:'wrap',
     padding: 20,
     alignItems: 'center',
-    width: '95%',
+    width: '100%',
     justifyContent: 'space-between'
   },
   listItemText: {
