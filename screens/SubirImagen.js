@@ -3,13 +3,14 @@ import { Image, Text, View, StyleSheet, TouchableOpacity, Button, Platform } fro
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import {RegistroContext} from '../RegistroContext';
-
-
+import {uploadImageTienda} from '../functions/uploadImages'
+import * as firebase from 'firebase'
 const SubirImagen = ({navigation, route})=>{
     
     const [image, setImage] = useState(null);
-    const {datos, onChangeText} = useContext(RegistroContext)
+    const {datos, onChangeText, setDatos} = useContext(RegistroContext)
 
+ 
 
   useEffect(() => {
     (async () => {
@@ -22,6 +23,8 @@ const SubirImagen = ({navigation, route})=>{
     })();
   }, []);
 
+
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -33,9 +36,12 @@ const SubirImagen = ({navigation, route})=>{
     console.log(result);
 
     if (!result.cancelled) {
-      onChangeText(result.uri)
-      setImage(result.uri);
+  
       
+        // setDatos({...datos, "url_imagen": url})
+        setDatos({...datos, "uri": result.uri})
+        setImage(result.uri);
+        // console.log(url)  
     }
   };
     
@@ -116,7 +122,7 @@ const SubirImagen = ({navigation, route})=>{
             Sube una imagen de tu tienda para que te puedan identificar mejor
         </Text>
         <View style={styles.placeholder}>
-                {image && <Image source={{ uri: image }} style={{ width: 320, height: 240}} />}
+                {image && <Image source={{ uri: datos.uri }} style={{ width: 320, height: 240}} />}
         </View>
         <View style={styles.inputView}>
             <TouchableOpacity style={styles.upload} onPress={pickImage}>

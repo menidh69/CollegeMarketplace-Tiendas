@@ -7,7 +7,7 @@ import Confirmar from './Confirmar';
 const RegistroStack = createStackNavigator();
 import {RegistroContext} from '../RegistroContext';
 import RegistroExitoso from './RegistroExitoso';
-import {numberValidation, textValidation, emailValidation, limit} from '../validation/formValidation'
+import {numberValidation, textValidation, emailValidation, limit} from '../functions/formValidation'
 
 const Registro = ()=>{
     
@@ -24,7 +24,8 @@ const Registro = ()=>{
         "horario": "",
         "url_imagen": "",
         "tipo_tienda": "1",
-        "tarjeta": "false"
+        "tarjeta": "false",
+        "uri": ""
     })
 
     

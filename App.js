@@ -8,15 +8,19 @@ import Registro from './screens/Registro';
 import Landing from './screens/Landing';
 import Login from './screens/login';
 import Home from './screens/Home';
+
 import Editarinfo from './screens/Editarinfo';
 import Mitienda from './screens/Mitienda';
 import Productos from './screens/Productos';
 import { NewUserContext } from './NewUserContext'
 import { TiendaContext } from './TiendaContext'
+  import * as firebase from 'firebase';
+import ApiKeys from './constants/ApiKeys'
 
 export default function App() {
     const [user, setUser] = useState(null)
     const [tienda, setTienda] = useState(null)
+ if(!firebase.apps.length){firebase.initializeApp(ApiKeys.FirebaseConfig)}
 
 
     function getHeaderTitle(route) {

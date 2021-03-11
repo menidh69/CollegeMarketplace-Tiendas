@@ -60,7 +60,7 @@ const Body = () => {
                 console.log(it[0])
                 setTienda(it[0])
                 navigation.navigate('Home', {id: result.user.id})
-                    }
+                }
         
         } catch (err) {
             console.log(err)
