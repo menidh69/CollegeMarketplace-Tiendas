@@ -77,7 +77,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   listItemText: {
-    fontSize: 18
+    fontSize: 18,
+    fontWeight: "bold"
   },
   button:{
             borderRadius: 20,

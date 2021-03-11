@@ -95,12 +95,7 @@ const Landing = ({navigation})=>{
             </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity text="Pedidos" onPress={() =>
-        navigation.navigate('Pedidos')} style={styles.button}>
-            <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
-                Pedidos
-            </Text>
-        </TouchableOpacity>
+
       </View>
     )
 
