@@ -10,6 +10,7 @@ import {NewUserContext} from '../NewUserContext'
 import Productos from './Productos';
 import Pedidos from './Pedidos';
 import Mitienda from './Mitienda';
+import MiCuenta from './Micuenta'
 
 
 
@@ -55,7 +56,7 @@ const Home = ({ route }) => {
                 />
                 <Tab.Screen
                     name='Mi Cuenta'
-                    children={() => <HomeScreen/>}
+                    children={() => <MiCuenta/>}
                 />
 
             </Tab.Navigator>
