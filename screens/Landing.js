@@ -94,6 +94,8 @@ const Landing = ({navigation})=>{
                 Registrate
             </Text>
         </TouchableOpacity>
+
+
       </View>
     )
 

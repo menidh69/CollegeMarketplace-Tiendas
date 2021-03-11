@@ -4,6 +4,7 @@ Arguments:
 PATH: 
   /Users/propietario/.ebcli-virtual-env/executables:/opt/local/bin:/opt/local/sbin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/propietario/.ebcli-virtual-env/executables:/opt/local/bin:/opt/local/sbin:/Users/propietario/Library/Android/sdk/emulator:/Users/propietario/Library/Android/sdk/tools:/Users/propietario/Library/Android/sdk/tools/bin:/Users/propietario/Library/Android/sdk/emulator:/Users/propietario/Library/Android/sdk/tools:/Users/propietario/Library/Android/sdk/tools/bin
 
+
 Yarn version: 
   1.22.10
 
@@ -21,6 +22,7 @@ Trace:
       at Request.<anonymous> (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:141721:10)
       at Request.emit (events.js:315:20)
       at IncomingMessage.<anonymous> (/usr/local/Cellar/yarn/1.22.10/libexec/lib/cli.js:141643:12)
+
       at Object.onceWrapper (events.js:421:28)
       at IncomingMessage.emit (events.js:327:22)
       at endReadableNT (internal/streams/readable.js:1327:12)
@@ -43,18 +45,22 @@ npm manifest:
       "@react-native-community/async-storage": "^1.12.1",
       "@react-native-community/masked-view": "0.1.10",
       "@react-native-firebase/app": "^11.0.0",
+
       "@react-native-picker/picker": "1.9.2",
       "@react-navigation/bottom-tabs": "^5.11.8",
       "@react-navigation/native": "^5.9.3",
       "@react-navigation/stack": "^5.14.3",
       "aws-sdk": "^2.860.0",
       "expo": "~40.0.0",
+      "expo": "^40.0.1",
+      "aws-sdk": "^2.860.0",
       "expo-image-picker": "~9.2.0",
       "expo-status-bar": "~1.0.3",
       "react": "16.13.1",
       "react-dom": "16.13.1",
       "react-hook-form": "^6.15.4",
       "react-native": "https://github.com/expo/react-native/archive/sdk-40.0.1.tar.gz",
+      "react-native-fontawesome": "^7.0.0",
       "react-native-gesture-handler": "~1.8.0",
       "react-native-reanimated": "~1.13.0",
       "react-native-safe-area-context": "3.1.9",
@@ -1872,6 +1878,7 @@ Lockfile:
       opencollective-postinstall "^2.0.1"
       superstruct "^0.6.2"
   
+
   "@react-native-picker/picker@1.9.2":
     version "1.9.2"
     resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.9.2.tgz#c5e35f97d7982d2971ee3d74b1ba8ecf4b716627"
@@ -3374,7 +3381,8 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/expo-status-bar/-/expo-status-bar-1.0.3.tgz#62b4d6145680abd43ba6ecfa465f835e88bf6263"
     integrity sha512-/Orgla1nkIrfswNHbuAOTbPVq0g3+GrhoQVk7MRafY2dwrFLgXhaPExS+eN2hpmzqPv2LG5cqAZDCQUAjmZYBQ==
   
-  expo@~40.0.0:
+
+  expo@^40.0.1:
     version "40.0.1"
     resolved "https://registry.yarnpkg.com/expo/-/expo-40.0.1.tgz#20ae9f9c787ba1662037094dfd6982380f2c0288"
     integrity sha512-9NrhimvP44I1aDjGHMU4F0izCyfFTTYAQ6xZpWpuc+ZWRZqg8Zv62zNRlzBn+Ydaf1heSucnlJJ3Sp2gMdOEnQ==
@@ -3634,12 +3642,14 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/fontfaceobserver/-/fontfaceobserver-2.1.0.tgz#e2705d293e2c585a6531c2a722905657317a2991"
     integrity sha512-ReOsO2F66jUa0jmv2nlM/s1MiutJx/srhAe2+TE8dJCMi02ZZOcCTxTCQFr3Yet+uODUtnr4Mewg+tNQ+4V1Ng==
   
+
   for-in@^0.1.3:
     version "0.1.8"
     resolved "https://registry.yarnpkg.com/for-in/-/for-in-0.1.8.tgz#d8773908e31256109952b1fdb9b3fa867d2775e1"
     integrity sha1-2Hc5COMSVhCZUrH9ubP6hn0ndeE=
   
   for-in@^1.0.1, for-in@^1.0.2:
+
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
     integrity sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=
@@ -3651,6 +3661,7 @@ Lockfile:
     dependencies:
       for-in "^1.0.1"
   
+
   foreach@^2.0.5:
     version "2.0.5"
     resolved "https://registry.yarnpkg.com/foreach/-/foreach-2.0.5.tgz#0bee005018aeb260d0a3af3ae658dd0136ec1b99"
@@ -4478,7 +4489,8 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-5.1.0.tgz#729c91e2d857b7a419a1f9aa65685c4c33f5845d"
     integrity sha512-NGEErnH6F2vUuXDh+OlbcKW7/wOcfdRHaZ7VWtqCztfHri/++YKmP51OdWeGPuqCOba6kk2OTe5d02VmTB80Pw==
   
-  kind-of@^6.0.0, kind-of@^6.0.1, kind-of@^6.0.2:
+
+  kind-of@^6.0.0, kind-of@^6.0.2:
     version "6.0.3"
     resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-6.0.3.tgz#07c05034a6c349fa06e24fa35aa76db4580ce4dd"
     integrity sha512-dcS1ul+9tmeD95T+x28/ehLgd9mENa3LsvDTtzm3vyBEO7RPptvAD+t44WVXaUjTBRcrpFeFlC8WCruUR456hw==
@@ -4991,7 +5003,7 @@ Lockfile:
     dependencies:
       for-in "^0.1.3"
       is-extendable "^0.1.1"
-  
+ 
   mkdirp@^0.5.1:
     version "0.5.5"
     resolved "https://registry.yarnpkg.com/mkdirp/-/mkdirp-0.5.5.tgz#d91cefd62d1436ca0f41620e251288d420099def"
@@ -5234,6 +5246,7 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/opencollective-postinstall/-/opencollective-postinstall-2.0.3.tgz#7a0fff978f6dbfa4d006238fbac98ed4198c3259"
     integrity sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==
   
+
   options@>=0.0.5:
     version "0.0.6"
     resolved "https://registry.yarnpkg.com/options/-/options-0.0.6.tgz#ec22d312806bb53e731773e7cdaefcf1c643128f"
@@ -6061,6 +6074,7 @@ Lockfile:
       kind-of "^5.0.0"
       mixin-object "^2.0.1"
   
+
   shebang-command@^1.2.0:
     version "1.2.0"
     resolved "https://registry.yarnpkg.com/shebang-command/-/shebang-command-1.2.0.tgz#44aac65b695b03398968c39f363fee5deafdf1ea"
@@ -6349,7 +6363,7 @@ Lockfile:
     version "9.2.1"
     resolved "https://registry.yarnpkg.com/sudo-prompt/-/sudo-prompt-9.2.1.tgz#77efb84309c9ca489527a4e749f287e6bdd52afd"
     integrity sha512-Mu7R0g4ig9TUuGSxJavny5Rv0egCEtpZRNMrZaYS1vxkiIxGiGUwoezU3LazIQ+KE04hTrTfNPgxU5gzi7F5Pw==
-  
+
   superstruct@^0.6.2:
     version "0.6.2"
     resolved "https://registry.yarnpkg.com/superstruct/-/superstruct-0.6.2.tgz#c5eb034806a17ff98d036674169ef85e4c7f6a1c"
@@ -6358,6 +6372,7 @@ Lockfile:
       clone-deep "^2.0.1"
       kind-of "^6.0.1"
   
+
   supports-color@^5.3.0:
     version "5.5.0"
     resolved "https://registry.yarnpkg.com/supports-color/-/supports-color-5.5.0.tgz#e2e69a44ac8772f78a1ec0b35b689df6530efc8f"

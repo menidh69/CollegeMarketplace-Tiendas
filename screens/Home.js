@@ -7,6 +7,10 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { useNavigation } from "@react-navigation/native";
 import {NewUserContext} from '../NewUserContext'
+import Productos from './Productos';
+import Pedidos from './Pedidos';
+import Mitienda from './Mitienda';
+
 
 
 
@@ -35,15 +39,15 @@ const Home = ({ route }) => {
             <Tab.Navigator>
                 <Tab.Screen
                     name='Mi Tienda'
-                    children={() => <HomeScreen/>}
+                    children={() => <Mitienda/>}
                 />
                 <Tab.Screen
                     name='Productos'
-                    children={() => <HomeScreen/>}
+                    children={() => <Productos/>}
                 />
                 <Tab.Screen
                     name='Pedidos'
-                    children={() => <HomeScreen/>}
+                    children={() => <Pedidos/>}
                 />
                 <Tab.Screen
                     name='Ventas'

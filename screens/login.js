@@ -7,8 +7,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { UserContext, ContexProvider } from '../UserContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {NewUserContext} from '../NewUserContext';
-import {isEmptyNull} from '../functions/formValidation';
+import { TiendaContext } from "../TiendaContext";
+import {isEmptyNull} from '../validation/formValidation';
 import ErrorModal from '../components/ErrorModal'
+
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,7 @@ const Login = () => {
 
 const Body = () => {
     const { user, setUser } = useContext(NewUserContext);
+    const {tienda, setTienda} = useContext(TiendaContext);
     const navigation = useNavigation();
     const [showmodal, setShowModal] = useState(false)
   const [modalMessage, setModalMessage] = useState("")
@@ -41,6 +44,7 @@ const Body = () => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)
                 })
+
                 
             const result = await response.json()
             if (response.status!=200) {
@@ -51,7 +55,10 @@ const Body = () => {
             } else {
                 AsyncStorage.setItem("token.tuw", result.user.token)
                 setUser(result.user);
-                
+                const response = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1//miTienda/${result.user.id}`)
+                const it = await response.json();
+                console.log(it[0])
+                setTienda(it[0])
                 navigation.navigate('Home', {id: result.user.id})
                 }
         
@@ -134,9 +141,9 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        marginBottom: 40,
-        width: '30%',
-        height: '15%'
+        marginBottom: 60,
+        width: '40%',
+        height: '17%'
     },
 
     icono: {
