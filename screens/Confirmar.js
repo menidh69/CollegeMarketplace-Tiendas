@@ -91,8 +91,8 @@ const Confirmar = ({navigation})=>{
       const [isDisabled, setIsDisabled] = useState(false)
       const tiposDeTienda = {
           "1": "Cooperativa",
-          "2": "Cafeteria",
-          "3": "Puesto"
+          "2": "Puesto",
+          "3": "Cafeteria"
       }
       const [modalVisible, setModalVisible] = useState(false);
 
@@ -144,12 +144,13 @@ const Confirmar = ({navigation})=>{
             setModalVisible(true)
             console.log(responseBody)
             setModalText("Ocurrió un error: "+responseBody.error)
+            setIsLoading(false);
             setIsDisabled(false)
         }else{
             setIsLoading(false);
             setModalText("");
             setModalVisible(false)
-            navigation.navigate('Exito')
+            navigation.navigate('Exito', responseBody)
         }
             });
         

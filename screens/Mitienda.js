@@ -1,9 +1,10 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState, useContext} from 'react'
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity, FlatList,Image } from 'react-native';
 import { useNavigation } from "@react-navigation/native";
 import { createStackNavigator } from '@react-navigation/stack';
 import Editarinfo from './Editarinfo'
 import Productos from './Productos';
+import {TiendaContext} from '../TiendaContext';
 
 
 const Stack = createStackNavigator();
@@ -39,31 +40,18 @@ const Mitienda = () => {
                 }
             }}
         />
-        <Stack.Screen
-            name="Productos"
-            component={Productos}
-            options={{
-                title: 'Gestionar menu',
-                headerStyle: {
-                    backgroundColor: '#C0D5E1',
-                    shadowOffset: {
-                        height: 0
-                    }
-                }
-            }}
-        />
+        
     </Stack.Navigator>
 );
 
 }
 const Mitiendascreen = () => {
 const navigation = useNavigation();
-
+const {tienda} = useContext(TiendaContext)
 return(
-  
   <View style={styles.container}>
   <Text style={styles.titulo}>Mi tienda</Text>
-  <Image source={{uri: 'https://i.ytimg.com/vi/nrhpG_xdcfQ/maxresdefault.jpg'}}  
+  <Image source={{uri: tienda.url_imagen || 'https://i.ytimg.com/vi/nrhpG_xdcfQ/maxresdefault.jpg'}}  
          style={styles.logo} />  
   <Text style={styles.titulo}>Comedor</Text>
   <TouchableOpacity style={styles.editinfo} onPress={() =>
