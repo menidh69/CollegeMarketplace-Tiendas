@@ -2,44 +2,26 @@ import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useState, useEffect } from 'react';
 import { StyleSheet, TabBarIOS, Text, View, ScrollView, TouchableOpacity, TextInput } from 'react-native';
-import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { useNavigation } from "@react-navigation/native";
-import { NewUserContext } from '../NewUserContext';
-import { TiendaContext } from '../TiendaContext';
+import { ProductoContext } from '../ProductoContext';
 import { useForm } from 'react-hook-form';
 
-const AgregarProducto = () => {
+const AgregarProducto = ({navigation}) => {
 
-    const { tienda, setTienda } = useContext(TiendaContext);
-
-    const navigation = useNavigation();
-
-    const onSubmit = async data => {
-        try {
-            data.id_tienda = tienda.id;
-            const body = data;
-            const response = await fetch('http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/nuevoProducto',
-                {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(body)
-                })
-                .then(async resp => {
-                    const result = await resp.json()
-                    if (result.error) {
-                        console.log(result.error)
-                    } else {
-                        console.log(result)
-                        navigation.reset({
-                            routes: [{ name: 'Productos' }]
-                        });
-                    }
-                })
-        } catch (err) {
-            console.log(err)
-        }
-    };
-
+    const {datos, setDatos} = useContext(ProductoContext)
+    const onSubmit = (data)=>{
+        setDatos({
+            ...datos, 
+            "nombre": data.nombre, 
+            "precio": data.precio, 
+            "categoria": data.categoria,
+            "descripcion": data.descripcion
+        })
+        console.log(datos);
+        console.log(data);
+        console.log(data.categoria)
+        navigation.navigate("ImagenProducto")
+    }
 
     const { register, handleSubmit, setValue } = useForm();
 
@@ -104,7 +86,7 @@ const AgregarProducto = () => {
             </View>
 
             <TouchableOpacity style={styles.guardarBtn} onPress={handleSubmit(onSubmit)}>
-                <Text style={styles.guardarText}>Guardar</Text>
+                <Text style={styles.guardarText}>Siguiente</Text>
             </TouchableOpacity>
         </View>
     );

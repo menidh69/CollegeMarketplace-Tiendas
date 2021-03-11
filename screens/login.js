@@ -8,7 +8,7 @@ import { UserContext, ContexProvider } from '../UserContext';
 import AsyncStorage from '@react-native-community/async-storage';
 import {NewUserContext} from '../NewUserContext';
 import { TiendaContext } from "../TiendaContext";
-import {isEmptyNull} from '../validation/formValidation';
+import {isEmptyNull} from '../functions/formValidation';
 import ErrorModal from '../components/ErrorModal'
 
 

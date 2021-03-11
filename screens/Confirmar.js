@@ -238,7 +238,7 @@ const Confirmar = ({navigation})=>{
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
             <Text style={styles.modalText}>{modalText}</Text>
-            {isLoading && <ActivityIndicator size="large" /> }
+            {isLoading && <ActivityIndicator color="red" size="large" /> }
             <TouchableHighlight
               style={{ ...styles.openButton, backgroundColor: '#2196F3' }}
               onPress={() => {
