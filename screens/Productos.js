@@ -10,6 +10,7 @@ import { NewUserContext } from '../NewUserContext';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TiendaContext } from '../TiendaContext'
 import RegistroProducto from './RegistroProducto'
+
 import EditarProducto from './EditarProducto'
 import EliminarProducto from './EliminarProducto'
 
@@ -38,6 +39,7 @@ const Productos = () => {
                 component={RegistroProducto}
                 options={{
                     headerShown: false
+
                 }}
             />
             <Stack.Screen
@@ -95,6 +97,7 @@ const ProductosScreen = () => {
     return (
         <View style={styles.container}>
             <TouchableOpacity style={styles.agregarNuevoBtn} onPress={() => navigation.navigate('RegistroProducto')}>
+
                 <Text style={styles.textAgregarNuevoBtn}>Agregar nuevo producto</Text>
             </TouchableOpacity>
 

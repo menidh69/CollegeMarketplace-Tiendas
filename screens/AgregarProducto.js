@@ -23,6 +23,7 @@ const AgregarProducto = ({navigation}) => {
         navigation.navigate("ImagenProducto")
     }
 
+
     const { register, handleSubmit, setValue } = useForm();
 
     useEffect(() => {
@@ -87,6 +88,7 @@ const AgregarProducto = ({navigation}) => {
 
             <TouchableOpacity style={styles.guardarBtn} onPress={handleSubmit(onSubmit)}>
                 <Text style={styles.guardarText}>Siguiente</Text>
+
             </TouchableOpacity>
         </View>
     );

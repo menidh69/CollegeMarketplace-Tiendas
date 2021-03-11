@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {NewUserContext} from '../NewUserContext';
 import { TiendaContext } from "../TiendaContext";
 import {isEmptyNull} from '../functions/formValidation';
+
 import ErrorModal from '../components/ErrorModal'
 
 
@@ -141,9 +142,9 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        marginBottom: 40,
-        width: '30%',
-        height: '15%'
+        marginBottom: 60,
+        width: '40%',
+        height: '17%'
     },
 
     icono: {
