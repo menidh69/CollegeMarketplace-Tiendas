@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import { StatusBar } from 'expo-status-bar';
 import React, { useContext, useState, useEffect } from 'react';
-import { StyleSheet, TabBarIOS, Text, View, ScrollView, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, TabBarIOS, Text, View, ScrollView, TouchableOpacity, FlatList, Image } from 'react-native';
 import { UserContext } from '../UserContext';
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
@@ -10,7 +10,7 @@ import { NewUserContext } from '../NewUserContext';
 import { createStackNavigator } from '@react-navigation/stack';
 import { TiendaContext } from '../TiendaContext'
 import RegistroProducto from './RegistroProducto'
-
+import Food from '../assets/food.png';
 import EditarProducto from './EditarProducto'
 import EliminarProducto from './EliminarProducto'
 
@@ -122,7 +122,9 @@ const Producto = ({ producto }) => {
     return (
         <>
             <View style={styles.productoContainer} >
-                <View style={styles.imageProducto}></View>
+                <View style={styles.imageProducto}>
+                {/* Aqui va la imagen */}
+                </View>
                 <View style={styles.textoProductoContainer}>
                     <Text>{producto.nombre}</Text>
                     <Text>${Number.parseFloat(producto.precio).toFixed(2)}</Text>

@@ -4,8 +4,9 @@ import {RegistroContext} from '../RegistroContext';
 import { faCoffee, faCheckCircle} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import {NewUserContext} from '../NewUserContext'
+import {TiendaContext} from '../TiendaContext'
 
-const RegistroExitoso = ({navigation})=>{
+const RegistroExitoso = ({route, navigation})=>{
     const styles = StyleSheet.create({
         baseText: {
           fontFamily: "Cochin"
@@ -43,13 +44,14 @@ const RegistroExitoso = ({navigation})=>{
             paddingHorizontal: 60
         }
       });
+      const {tienda, setTienda} = useContext(TiendaContext)
       const {datos} = useContext(RegistroContext)
       const tiposDeTienda = {
           "1": "Cooperativa",
           "2": "Cafeteria",
           "3": "Puesto"
       }
-
+      const infoTienda = route.params.tienda
 
       const {user, setUser} = useContext(NewUserContext)
 
@@ -57,14 +59,22 @@ const RegistroExitoso = ({navigation})=>{
           //Generar JWT
           //Pendiente.....
           //------------------
-          setUser({
-            "nombre": datos.nombre, 
-            "apellidos": datos.apellidos, 
-            "email": datos.email,
-            "telefono": datos.telefono,
-            "universidad": datos.nombre_universidad
+        //   setUser({
+        //     "nombre": datos.nombre, 
+        //     "apellidos": datos.apellidos, 
+        //     "email": datos.email,
+        //     "telefono": datos.telefono,
+        //     "universidad": datos.nombre_universidad
+        // })
+        // setTienda({
+        //     "nombre_tienda": infoTienda.nombre_tienda,
+        //     "horario": infoTienda.horario,
+        //     "url_imagen": infoTienda.url_imagen,
+        //     "id": "",
+        // })
+        navigation.reset({
+            routes: [{ name: 'Landing' }]
         })
-        navigation.navigate("Home")
       };
 
     return(
