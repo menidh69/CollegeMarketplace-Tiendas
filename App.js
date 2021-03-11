@@ -16,15 +16,18 @@ import { NewUserContext } from './NewUserContext'
 import { TiendaContext } from './TiendaContext'
   import * as firebase from 'firebase';
 import ApiKeys from './constants/ApiKeys'
+import { TiendaContext } from './TiendaContext'
 
 export default function App() {
     const [user, setUser] = useState(null)
     const [tienda, setTienda] = useState(null)
- if(!firebase.apps.length){firebase.initializeApp(ApiKeys.FirebaseConfig)}
+
+    if(!firebase.apps.length){firebase.initializeApp(ApiKeys.FirebaseConfig)}
 
 
     function getHeaderTitle(route) {
         const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
+
 
         switch (routeName) {
             case 'Home':
