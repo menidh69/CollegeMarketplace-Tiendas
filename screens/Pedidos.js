@@ -1,6 +1,6 @@
-import React,{useEffect, useState} from 'react'
+import React,{useEffect, useState, useContext} from 'react'
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity, FlatList } from 'react-native';
-
+import {TiendaContext} from '../TiendaContext'
 
 
 const data = [
@@ -15,19 +15,61 @@ const data = [
 ];
 
 export default function Pedidos() {
+  const [items, setItems] = useState([])
+  const {tienda} = useContext(TiendaContext);
+
+  useEffect(()=>{
+    let isMounted = true;
+    if(isMounted){
+      fetchitems()
+      .then(data=>{
+        setItems(data)
+      })
+    }
+    return ()=>isMounted=false
+  }, [])
+
+  const show = ()=>{
+    console.log(items)
+  }
+
+  const fetchitems = async (id) => {
+    const data = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas/pedidosPendientes/${tienda.id}`);
+    const it = await data.json();
+    console.log(it.result[0].apellidos);
+    return it.result
+}
+
+  const entregar = async (id_orden)=>{
+    const body = "";
+    const data = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas/entregar/${id_orden}`,
+    {
+      method: "PUT",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(body)
+  });  
+  if(!data.status==200){
+    console.log("Err:" + data)
+  }else{
+    const it = await data.json();
+    console.log(it);
+    setItems(list.filter(item => item.id !== id_orden));
+  }
+  }
+  console.log(items)
   return (
     <View style={styles.container}>
       <Text style={styles.text}>Pedidos pendientes</Text>
+      {((items.length>0))? 
       <FlatList
-        data={data}
+        data={items}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <View style={styles.listItem}>
-            <Text style={styles.listItemText}>{item.nombre}{item.id}: {item.user} </Text>
-          <TouchableOpacity text="Ver" onPress={() =>
-        { alert(item.desc);}} style={styles.button}> 
+            <Text style={styles.listItemText}>{item.nombre_producto}: {item.nombre} {item.apellidos} </Text>
+          <TouchableOpacity text="Ver" onPress={() => entregar(item.id)} style={styles.button}> 
             <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
-                Ver
+                Entregar
             </Text>
         </TouchableOpacity>
 
@@ -37,7 +79,9 @@ export default function Pedidos() {
 
         )}
       />
-
+      :
+      <Text style={{fontSize: 30, margin: 40, textAlign: "center"}}>No tienes pedidos pendientes</Text>
+      }
     </View>
   );
 }
