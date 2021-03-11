@@ -141,9 +141,9 @@ const styles = StyleSheet.create({
     },
 
     image: {
-        marginBottom: 40,
-        width: '30%',
-        height: '15%'
+        marginBottom: 60,
+        width: '40%',
+        height: '17%'
     },
 
     icono: {

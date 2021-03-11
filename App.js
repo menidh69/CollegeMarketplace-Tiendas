@@ -8,6 +8,9 @@ import Registro from './screens/Registro';
 import Landing from './screens/Landing';
 import Login from './screens/login';
 import Home from './screens/Home';
+import Editarinfo from './screens/Editarinfo';
+import Mitienda from './screens/Mitienda';
+import Productos from './screens/Productos';
 import { NewUserContext } from './NewUserContext'
 import { TiendaContext } from './TiendaContext'
 
