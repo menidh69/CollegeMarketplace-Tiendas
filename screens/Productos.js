@@ -107,14 +107,12 @@ const ProductosScreen = () => {
             <Text style={styles.titulo}>{items.length > 0 ? 'Gestiona tus Productos' : 'No hay Productos'}</Text>
 
 
-            {/* <ScrollView style={styles.listaContainer}> */}
 
                 <FlatList
                 style={styles.listaContainer}
                     data={items}
                     renderItem={({ item }) => <Producto producto={item} />}
                 />
-            {/* </ScrollView> */}
         </View>
     );
 }
