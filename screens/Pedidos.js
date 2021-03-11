@@ -19,14 +19,14 @@ export default function Pedidos() {
   const {tienda} = useContext(TiendaContext);
 
   useEffect(()=>{
-    let isMounted = true;
-    if(isMounted){
-      fetchitems()
-      .then(data=>{
-        setItems(data)
-      })
-    }
-    return ()=>isMounted=false
+    fetchitems();
+    const interval=setInterval(()=>{
+      fetchitems();
+      console.log("new request");
+     },10000)
+       
+       
+     return()=>clearInterval(interval)
   }, [])
 
   const show = ()=>{
@@ -36,8 +36,8 @@ export default function Pedidos() {
   const fetchitems = async (id) => {
     const data = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas/pedidosPendientes/${tienda.id}`);
     const it = await data.json();
-    console.log(it.result[0].apellidos);
-    return it.result
+    setItems(it.result)
+    return
 }
 
   const entregar = async (id_orden)=>{
