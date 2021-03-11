@@ -8,7 +8,7 @@ import { NewUserContext } from '../NewUserContext';
 import { TiendaContext } from '../TiendaContext';
 import { useForm } from 'react-hook-form';
 
-const AgregarProducto = () => {
+const EditarProducto = ({ route }) => {
 
     const { tienda, setTienda } = useContext(TiendaContext);
 
@@ -18,9 +18,9 @@ const AgregarProducto = () => {
         try {
             data.id_tienda = tienda.id;
             const body = data;
-            const response = await fetch('http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/nuevoProducto',
+            const response = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/editarProducto/${route.params.producto.id}`,
                 {
-                    method: "POST",
+                    method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(body)
                 })
@@ -32,7 +32,7 @@ const AgregarProducto = () => {
                         console.log(result)
                         navigation.reset({
                             routes: [{ name: 'Productos' }]
-                        });
+                          });
                     }
                 })
         } catch (err) {
@@ -44,13 +44,16 @@ const AgregarProducto = () => {
     const { register, handleSubmit, setValue } = useForm();
 
     useEffect(() => {
-        register('id_tienda')
+        register('id_tienda');
         register('nombre');
         register('precio');
         register('categoria');
         register('url_imagen');
         register('descripcion');
     }, [register]);
+
+    var precio = route.params.producto.precio;
+    var precioText = '' + precio;
 
     return (
         <View style={styles.container}>
@@ -63,7 +66,7 @@ const AgregarProducto = () => {
                     placeholderTextColor="#003f5c"
                     maxLength={20}
                     onChangeText={text => { setValue('nombre', text) }}
-                    data-openpay-card="card_number"
+                    defaultValue={route.params.producto.nombre}
                 />
             </View>
 
@@ -76,6 +79,7 @@ const AgregarProducto = () => {
                     keyboardType='number-pad'
                     maxLength={6}
                     onChangeText={text => { setValue('precio', text) }}
+                    defaultValue={precioText}
                 />
             </View>
 
@@ -87,6 +91,7 @@ const AgregarProducto = () => {
                     placeholderTextColor="#003f5c"
                     maxLength={20}
                     onChangeText={text => { setValue('categoria', text) }}
+                    defaultValue={route.params.producto.categoria}
                 />
             </View>
 
@@ -100,6 +105,7 @@ const AgregarProducto = () => {
                     multiline={true}
                     numberOfLines={4}
                     onChangeText={text => { setValue('descripcion', text) }}
+                    defaultValue={route.params.producto.descripcion}
                 />
             </View>
 
@@ -165,4 +171,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default AgregarProducto;
+export default EditarProducto;
