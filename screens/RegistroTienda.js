@@ -1,39 +1,43 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
+import { useEffect } from 'react';
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity } from 'react-native';
+import {RegistroContext} from '../RegistroContext';
+import {Picker} from '@react-native-picker/picker';
+import {emailValidation, isEmptyNull, repeatPassword} from '../validation/formValidation';
+import ErrorModal from '../components/ErrorModal';
 
 
-const RegistroTienda = ({navigation})=>{
-    const [datos, setDatos] = useState({
-        "nombre": "",
-        "apellido": "",
-        "contraseña": "",
-        "repetirContraseña": "",
-        "telefono": "",
-        "universidad": ""
-    })
+const RegistroTienda = ({navigation, route})=>{
+  const [items, setItems] = useState([]);
+  const {datos, onChangeText, setDatos} = useContext(RegistroContext)
+  const [showmodal, setShowModal] = useState(false)
+  const [modalMessage, setModalMessage] = useState("")
 
-    const onChangeText = (text, form)=>{
-        switch(form){
-            case "nombre":
-                setDatos({...datos, "nombre": text})
-                return
-            case " apellido":
-                setDatos({...datos, "apellido": text})
-                return
-            case "contraseña":
-                setDatos({...datos, "contraseña": text})
-                return
-            case "repetirContraseña":
-                setDatos({...datos, "repetirContraseña": text})
-                return
-            case "telefono":
-                setDatos({...datos, "telefono": text})
-                return
-            case "universidad":
-                setDatos({...datos, "universidad": text})
-                return
+    useEffect(()=>{
+      let isMounted = true;
+      fetchitems()
+      .then(response=>{
+        if(isMounted){
+          setItems(response)
         }
-        
+      })
+     return ()=>isMounted=false
+    }, [])
+
+    const handleNext=()=>{
+      if(isEmptyNull(datos.nombre_tienda) || isEmptyNull(datos.horario)){
+        setShowModal(true);
+        setModalMessage("Debes llenar todos los campos")
+        return
+      }
+      return navigation.navigate('SubirImagen');
+    }
+
+    const fetchitems =async()=>{
+      const datos = await fetch('http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/universidades');
+      const universidades =  await datos.json();
+      console.log(universidades)
+      return universidades;
     }
 
     const styles = StyleSheet.create({
@@ -64,6 +68,24 @@ const RegistroTienda = ({navigation})=>{
             paddingLeft: 20,
 
         },
+        pickerInput:{    
+          backgroundColor: "#FFFFFF",
+          height: 25,   
+          borderColor: 'gray', 
+          borderWidth: 1,
+
+
+
+      },
+        inputPicker:{    
+          backgroundColor: "#FFFFFF",
+          height: 40,   
+          borderColor: 'gray', 
+          borderWidth: 1,
+          borderRadius: 15,
+          padding: 5
+
+      },
         container:{
             padding: 30,
             backgroundColor: "#B1D8EE",
@@ -88,6 +110,7 @@ const RegistroTienda = ({navigation})=>{
         }
       });
 
+
     return(
         <View style={styles.container}>
         <Text style={styles.titleText}>
@@ -99,34 +122,42 @@ const RegistroTienda = ({navigation})=>{
 
         <View style={styles.inputView}>
         <Text style={styles.label}>
-            Nombre de la Tienda:
+            Nombre de la Tienda*:
         </Text>
         <TextInput
         style={styles.input}
-        onChangeText={text => onChangeText(text, "nombre")}
-        value={datos.nombre}
+        onChangeText={text => onChangeText(text, "nombre_tienda")}
+        value={datos.nombre_tienda}
       />
       </View>
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Selecciona el tipo de tienda:
+            Tipo de tienda:
         </Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={text => onChangeText(text, "apellido")}
-        value={datos.apellido}
-      />
+      <View style={styles.inputPicker}>
+      <Picker
+          selectedValue={datos.tipo_tienda}
+          style={styles.pickerInput}
+          onValueChange={(itemValue, itemIndex) =>
+            setDatos({...datos, "tipo_tienda": itemValue})
+          }>
+          <Picker.Item label={"Cafetería"} value={"1"} />
+          <Picker.Item label={"Cooperativa"} value={"2"} />
+          <Picker.Item label={"Puesto"} value={"3"} />
+        
+      </Picker>
+      </View>
       </View>
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Horario:
+            Horario*:
         </Text>
       <TextInput
         style={styles.input}
-        onChangeText={text => onChangeText(text, "contraseña")}
-        value={datos.contraseña}
+        onChangeText={text => onChangeText(text, "horario")}
+        value={datos.horario}
       />
       </View>
 
@@ -134,14 +165,42 @@ const RegistroTienda = ({navigation})=>{
        <Text style={styles.label}>
             ¿Aceptan tarjeta?
         </Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={text => onChangeText(text, "repetirContraseña")}
-        value={datos.repetirContraseña}
-      />
+      <View style={styles.inputPicker}>
+      <Picker
+          selectedValue={datos.tarjeta}
+          style={styles.pickerInput}
+          onValueChange={(itemValue, itemIndex) =>
+            setDatos({...datos, "tarjeta": itemValue})
+          }>
+       
+          <Picker.Item label={"Si"} value={"true"} />
+          <Picker.Item label={"No"} value={"false"} />
+        
+      </Picker>
       </View>
 
+      </View>
+      <View style={styles.inputView}>
+       <Text style={styles.label}>
+            Universidad*:
+        </Text>
+        <View style={styles.inputPicker}>
+        <Picker
+          selectedValue={datos.id_universidad}
+          style={styles.pickerInput}
+          onValueChange={(itemValue, itemIndex) =>
+            setDatos({...datos, "id_universidad": itemValue, "nombre_universidad": items[itemIndex].nombre})
+
+          }>
+        {items.map(item=>(
+          <Picker.Item key={item.id} label={item.nombre} value={item.id} />
+        )
+        )}
+        
+      </Picker>
+      </View>
       
+      </View>
 
       <TouchableOpacity text="Siguiente" onPress={() =>
         navigation.navigate('RegistroDatos')} style={styles.button} >
@@ -150,12 +209,13 @@ const RegistroTienda = ({navigation})=>{
         </Text>
         </TouchableOpacity>
 
-        <TouchableOpacity text="Siguiente" onPress={() =>
-        navigation.navigate('SubirImagen')} style={styles.button}>
+        <TouchableOpacity text="Siguiente" onPress={() => handleNext()} style={styles.button}>
             <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
                 Siguiente
             </Text>
         </TouchableOpacity>
+        <ErrorModal setShow={setShowModal} show={showmodal} message={modalMessage}></ErrorModal>
+
       </View>
     )
 

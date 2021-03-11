@@ -1,40 +1,33 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity } from 'react-native';
+import {RegistroContext} from '../RegistroContext';
+import {emailValidation, isEmptyNull, repeatPassword} from '../validation/formValidation';
+import ErrorModal from '../components/ErrorModal';
 
-
-const RegistroDatos = ({navigation})=>{
-    const [datos, setDatos] = useState({
-        "nombre": "",
-        "apellido": "",
-        "contraseña": "",
-        "repetirContraseña": "",
-        "telefono": "",
-        "universidad": ""
-    })
-
-    const onChangeText = (text, form)=>{
-        switch(form){
-            case "nombre":
-                setDatos({...datos, "nombre": text})
-                return
-            case " apellido":
-                setDatos({...datos, "apellido": text})
-                return
-            case "contraseña":
-                setDatos({...datos, "contraseña": text})
-                return
-            case "repetirContraseña":
-                setDatos({...datos, "repetirContraseña": text})
-                return
-            case "telefono":
-                setDatos({...datos, "telefono": text})
-                return
-            case "universidad":
-                setDatos({...datos, "universidad": text})
-                return
-        }
-        
+const RegistroDatos = ({navigation, route})=>{
+  const {datos, onChangeText} = useContext(RegistroContext)
+  const [showmodal, setShowModal] = useState(false)
+  const [modalMessage, setModalMessage] = useState("")
+    const handleNext = ()=>{
+      if(isEmptyNull(datos.nombre)||isEmptyNull(datos.apellidos)||isEmptyNull(datos.email)||isEmptyNull(datos.contraseña)
+      ||isEmptyNull(datos.repetirContraseña)||isEmptyNull(datos.telefono)){
+        setShowModal(true);
+        setModalMessage("Debes llenar todos los campos")
+        return
+      }
+      if(!emailValidation(datos.email)){
+        setModalMessage("El formato de tu correo es incorrecto")
+        setShowModal(true);
+        return
+      }
+      if(!repeatPassword(datos.contraseña, datos.repetirContraseña)){
+        setShowModal(true);
+        setModalMessage("Tus contraseñas no coinciden")
+        return
+      }
+      return navigation.navigate('RegistroTienda', )
     }
+  
 
     const styles = StyleSheet.create({
         baseText: {
@@ -99,7 +92,7 @@ const RegistroDatos = ({navigation})=>{
 
         <View style={styles.inputView}>
         <Text style={styles.label}>
-            Nombre:
+            Nombre*:
         </Text>
         <TextInput
         style={styles.input}
@@ -110,20 +103,30 @@ const RegistroDatos = ({navigation})=>{
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Apellidos:
+            Apellidos*:
         </Text>
       <TextInput
         style={styles.input}
-        onChangeText={text => onChangeText(text, "apellido")}
-        value={datos.apellido}
+        onChangeText={text => onChangeText(text, "apellidos")}
+        value={datos.apellidos}
+      />
+      </View>
+      <View style={styles.inputView}>
+       <Text style={styles.label}>
+            Correo*:
+        </Text>
+      <TextInput
+        style={styles.input}
+        onChangeText={text => onChangeText(text, "email")}
+        value={datos.email}
       />
       </View>
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Contraseña:
+            Contraseña*:
         </Text>
-      <TextInput
+      <TextInput secureTextEntry={true}
         style={styles.input}
         onChangeText={text => onChangeText(text, "contraseña")}
         value={datos.contraseña}
@@ -132,9 +135,10 @@ const RegistroDatos = ({navigation})=>{
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Repetir Contraseña:
+            Repetir Contraseña*:
         </Text>
       <TextInput
+      secureTextEntry={true}
         style={styles.input}
         onChangeText={text => onChangeText(text, "repetirContraseña")}
         value={datos.repetirContraseña}
@@ -143,7 +147,7 @@ const RegistroDatos = ({navigation})=>{
 
       <View style={styles.inputView}>
        <Text style={styles.label}>
-            Telefono:
+            Telefono*:
         </Text>
       <TextInput
         style={styles.input}
@@ -151,25 +155,16 @@ const RegistroDatos = ({navigation})=>{
         value={datos.telefono}
       />
       </View>
-
-      <View style={styles.inputView}>
-       <Text style={styles.label}>
-            Universidad:
-        </Text>
-      <TextInput
-        style={styles.input}
-        onChangeText={text => onChangeText(text, "universidad")}
-        value={datos.universidad}
-      />
-      </View>
+      
       <TouchableOpacity onPress={() =>
-        navigation.navigate('RegistroTienda')
+        handleNext()
       }
       text="Siguiente" style={styles.button}>
       <Text style={{"color": "#FFFFFF", "textAlign": "center", "fontSize": 20}}>
             Siguiente
         </Text>
           </TouchableOpacity>
+          <ErrorModal setShow={setShowModal} show={showmodal} message={modalMessage}></ErrorModal>
       </View>
     )
 

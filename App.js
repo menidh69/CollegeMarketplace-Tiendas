@@ -1,59 +1,91 @@
-import { StatusBar } from 'expo-status-bar';
-import React, {useState} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+
+import React, { useState } from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-
 const Stack = createStackNavigator();
-import RegistroDatos from './screens/RegistroDatos';
-import RegistroTienda from './screens/RegistroTienda';
-import SubirImagen from './screens/SubirImagen';
-import Confirmar from './screens/Confirmar'
 import Registro from './screens/Registro';
 import Landing from './screens/Landing';
-import Pedidos from './screens/Pedidos';
+import Login from './screens/login';
+import Home from './screens/Home';
+import { NewUserContext } from './NewUserContext'
+import { TiendaContext } from './TiendaContext'
 
 export default function App() {
-  return (
-    <NavigationContainer>
-    <Stack.Navigator>
+    const [user, setUser] = useState(null)
+    const [tienda, setTienda] = useState(null)
 
-    <Stack.Screen 
-          name="Landing" 
-          component={Landing}
-          options={{headerShown: false}}
-           /> 
-    <Stack.Screen
-          name="RegistroDatos"
-          component={RegistroDatos}
-          options={{ title: "Sign Up"}}
-        />
-         <Stack.Screen
-          name="RegistroTienda"
-          component={RegistroTienda}
-          options={{ title: "Sign Up"}}
-        />
-         <Stack.Screen
-          name="SubirImagen"
-          component={SubirImagen}
-          options={{ title: "Sube tu foto" }}
-        />
-        <Stack.Screen
-          name="Confirmar"
-          component={Confirmar}
-          options={{ title: "Confirmar" }}
-        />
 
-         <Stack.Screen
-          name="Pedidos"
-          component={Pedidos}
-          options={{ title: "Pedidos" }}
-        />
-     
-     
-    </Stack.Navigator>
-    </NavigationContainer>
-  );
+    function getHeaderTitle(route) {
+        const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
+
+        switch (routeName) {
+            case 'Home':
+                return 'Hola';
+            case 'Cuenta':
+                return 'Mi Cuenta';
+            case 'Carrito':
+                return 'Mi Carrito';
+            case 'Pedidos':
+                return 'Mis pedidos';
+            case 'Buscar':
+                return 'Buscar';
+        }
+    }
+
+
+    return (
+        <NewUserContext.Provider value={{ user, setUser }}>
+            <TiendaContext.Provider value={{ tienda, setTienda }}>
+
+                <NavigationContainer>
+                    <Stack.Navigator>
+
+                        <Stack.Screen
+                            name="Landing"
+                            component={Landing}
+                            options={{ headerShown: false }}
+                        />
+                        <Stack.Screen
+                            name="Login"
+                            component={Login}
+                            options={
+                                {
+                                    title: 'Log In',
+                                    headerBackTitle: 'Atrás',
+
+                                    headerTintColor: '#000',
+                                    headerStyle: {
+                                        backgroundColor: '#C0D5E1'
+                                    },
+                                    shadowOffset: {
+                                        height: 0
+                                    }
+                                }
+                            }
+                        />
+                        <Stack.Screen
+                            name="Registro"
+                            component={Registro}
+                            options={{ title: "Sign Up", headerShown: false }}
+                        />
+
+                        <Stack.Screen
+                            name="Home"
+                            component={Home}
+                            options={({ route }) => (
+                                {
+                                    headerShown: false,
+                                    shadowOffset: {
+                                        height: 0
+                                    }
+                                })
+                            }
+                        />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </TiendaContext.Provider>
+        </NewUserContext.Provider>
+    );
 }
 
