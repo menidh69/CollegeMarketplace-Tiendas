@@ -18,7 +18,7 @@ const EditarProducto = ({ route }) => {
         try {
             data.id_tienda = tienda.id;
             const body = data;
-            const response = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/editarProducto/${route.params.producto.id}`,
+            const response = await fetch(`http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/editarProducto/${route.params.producto.id}`,
                 {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
