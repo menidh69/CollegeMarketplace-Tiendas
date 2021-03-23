@@ -1,12 +1,10 @@
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 const Stack = createStackNavigator();
-import Registro from './screens/Registro';
-import Landing from './screens/Landing';
-import Login from './screens/login';
+
 import Home from './screens/Home';
 import Editarinfo from './screens/Editarinfo';
 import Mitienda from './screens/Mitienda';
@@ -15,6 +13,8 @@ import { NewUserContext } from './NewUserContext'
 import { TiendaContext } from './TiendaContext'
   import * as firebase from 'firebase';
 import ApiKeys from './constants/ApiKeys'
+import AsyncStorage from '@react-native-community/async-storage';
+import Auth from './screens/Auth';
 
 export default function App() {
     const [user, setUser] = useState(null)
@@ -22,25 +22,40 @@ export default function App() {
 
     if(!firebase.apps.length){firebase.initializeApp(ApiKeys.FirebaseConfig)}
 
-
-    function getHeaderTitle(route) {
-        const routeName = getFocusedRouteNameFromRoute(route) ?? 'Home';
-
-
-        switch (routeName) {
-            case 'Home':
-                return 'Hola';
-            case 'Cuenta':
-                return 'Mi Cuenta';
-            case 'Carrito':
-                return 'Mi Carrito';
-            case 'Pedidos':
-                return 'Mis pedidos';
-            case 'Buscar':
-                return 'Buscar';
-        }
+    const checkSignedIn = async ()=>{
+        const token = AsyncStorage.getItem("token.tuw")
+        if(!token || token=="") return 
+        const auth = await fetch('http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/auth/user',
+        {
+            method: "GET",
+            headers: {
+              "x-auth-token": token
+          }
+        })
+        .then(async resp=>{
+          const usuario = await resp.json();
+          if(resp.status==400){
+            AsyncStorage.removeItem('token.tuw')
+            setUser(null)
+            return
+          }else{
+            const response = await fetch(`http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1//miTienda/${result.user.id}`)
+            const it = await response.json();
+            console.log(it[0])
+            setTienda(it[0])
+            setUser(usuario)
+          return 
+          }
+        })
     }
 
+    useEffect(()=>{
+        let isMounted = true;
+        if(isMounted){
+            checkSignedIn();
+        }
+        return ()=>isMounted=false
+    },[])
 
     return (
         <NewUserContext.Provider value={{ user, setUser }}>
@@ -48,36 +63,13 @@ export default function App() {
 
                 <NavigationContainer>
                     <Stack.Navigator>
-
+                        {user==null ?
                         <Stack.Screen
-                            name="Landing"
-                            component={Landing}
+                            name="Auth"
+                            component={Auth}
                             options={{ headerShown: false }}
                         />
-                        <Stack.Screen
-                            name="Login"
-                            component={Login}
-                            options={
-                                {
-                                    title: 'Log In',
-                                    headerBackTitle: 'Atrás',
-
-                                    headerTintColor: '#000',
-                                    headerStyle: {
-                                        backgroundColor: '#C0D5E1'
-                                    },
-                                    shadowOffset: {
-                                        height: 0
-                                    }
-                                }
-                            }
-                        />
-                        <Stack.Screen
-                            name="Registro"
-                            component={Registro}
-                            options={{ title: "Sign Up", headerShown: false }}
-                        />
-
+                        :
                         <Stack.Screen
                             name="Home"
                             component={Home}
@@ -90,6 +82,7 @@ export default function App() {
                                 })
                             }
                         />
+                        }
                     </Stack.Navigator>
                 </NavigationContainer>
             </TiendaContext.Provider>
