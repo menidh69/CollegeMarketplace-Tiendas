@@ -1,6 +1,6 @@
 import React, {useState, useContext} from 'react';
 import { useEffect } from 'react';
-import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity } from 'react-native';
+import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity, ScrollView } from 'react-native';
 import {RegistroContext} from '../RegistroContext';
 import {Picker} from '@react-native-picker/picker';
 import {emailValidation, isEmptyNull, repeatPassword} from '../functions/formValidation';
@@ -112,7 +112,7 @@ const RegistroTienda = ({navigation, route})=>{
 
 
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
         <Text style={styles.titleText}>
             Crea tu Tienda
         </Text>
@@ -187,7 +187,6 @@ const RegistroTienda = ({navigation, route})=>{
         <View style={styles.inputPicker}>
         <Picker
           selectedValue={datos.id_universidad}
-          style={styles.pickerInput}
           onValueChange={(itemValue, itemIndex) =>
             setDatos({...datos, "id_universidad": itemValue, "nombre_universidad": items[itemIndex].nombre})
 
@@ -216,10 +215,11 @@ const RegistroTienda = ({navigation, route})=>{
         </TouchableOpacity>
         <ErrorModal setShow={setShowModal} show={showmodal} message={modalMessage}></ErrorModal>
 
-      </View>
+      </ScrollView>
     )
 
 
 }
 
 export default RegistroTienda;
+
