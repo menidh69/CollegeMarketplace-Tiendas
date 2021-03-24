@@ -16,7 +16,7 @@ const EliminarProducto = ({ route }) => {
 
     const onSubmit = async () => {
         try {
-            const response = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/eliminarProducto/${route.params.producto.id}/${tienda.id}`,
+            const response = await fetch(`http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/eliminarProducto/${route.params.producto.id}/${tienda.id}`,
                 {
                     method: "DELETE",
                     headers: { "Content-Type": "application/json" },

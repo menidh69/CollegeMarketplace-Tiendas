@@ -34,7 +34,7 @@ export default function Pedidos() {
   }
 
   const fetchitems = async (id) => {
-    const data = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas/pedidosPendientes/${tienda.id}`);
+    const data = await fetch(`http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/tiendas/pedidosPendientes/${tienda.id}`);
     const it = await data.json();
     const order = getOrdenes(it.result)
     setItems(order)
@@ -42,7 +42,7 @@ export default function Pedidos() {
 }
 
   const entregar = async (id_orden)=>{
-    const data = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas/entregar/${id_orden}`,
+    const data = await fetch(`http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/tiendas/entregar/${id_orden}`,
     {
       method: "PUT",
       headers: {"Content-Type":"application/json"}

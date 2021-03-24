@@ -39,7 +39,7 @@ const Body = () => {
         }
         try {
             const body = data;
-            const response = await fetch('http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/usuario/login',
+            const response = await fetch('http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/usuario/login',
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
@@ -55,12 +55,12 @@ const Body = () => {
                 return
             } else {
                 AsyncStorage.setItem("token.tuw", result.user.token)
-                setUser(result.user);
-                const response = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1//miTienda/${result.user.id}`)
+                const response = await fetch(`http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1//miTienda/${result.user.id}`)
                 const it = await response.json();
                 console.log(it[0])
                 setTienda(it[0])
-                navigation.navigate('Home', {id: result.user.id})
+                setUser(result.user);
+                // navigation.navigate('Home', {id: result.user.id})
                 }
         
         } catch (err) {

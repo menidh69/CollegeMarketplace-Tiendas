@@ -132,7 +132,7 @@ const Confirmar = ({navigation})=>{
             const body = datos;
             body.url_imagen = downloadURL;
         console.log(body)
-        const response = await fetch("http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/tiendas",
+        const response = await fetch("http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/tiendas",
         {
             method: "POST",
             headers: { "Content-Type": "application/json" },
