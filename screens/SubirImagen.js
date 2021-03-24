@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react';
-import { Image, Text, View, StyleSheet, TouchableOpacity, Button, Platform } from 'react-native';
+import { Image, Text, View, StyleSheet, TouchableOpacity, Button, ScrollView, Platform } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import Constants from 'expo-constants';
 import {RegistroContext} from '../RegistroContext';
@@ -114,7 +114,7 @@ const SubirImagen = ({navigation, route})=>{
       });
 
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
         <Text style={styles.titleText}>
             Sube tu foto
         </Text>
@@ -155,7 +155,7 @@ const SubirImagen = ({navigation, route})=>{
                 Omitir
             </Text>
         </TouchableOpacity>
-      </View>
+      </ScrollView>
     )
 
 
