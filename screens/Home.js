@@ -11,6 +11,7 @@ import Productos from './Productos';
 import Pedidos from './Pedidos';
 import Mitienda from './Mitienda';
 import MiCuenta from './Micuenta'
+import Ventas from './Ventas'
 
 
 
@@ -52,7 +53,7 @@ const Home = ({ route }) => {
                 />
                 <Tab.Screen
                     name='Ventas'
-                    children={() => <HomeScreen/>}
+                    children={() => <Ventas/>}
                 />
                 <Tab.Screen
                     name='Mi Cuenta'

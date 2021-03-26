@@ -121,12 +121,15 @@ const Producto = ({ producto }) => {
         <>
             <View style={styles.productoContainer} >
                 <View style={styles.imageProducto}>
-                {/* Aqui va la imagen */}
+                <Image style={styles.imageProducto}
+                source={{uri: producto.url_imagen}}  
+          />  
                 </View>
                 <View style={styles.textoProductoContainer}>
                     <Text>{producto.nombre}</Text>
                     <Text>${Number.parseFloat(producto.precio).toFixed(2)}</Text>
                     <Text>{producto.descripcion}</Text>
+                    
                 </View>
                 <View style={{ width: "100%", alignItems: 'center', flexDirection: 'row', justifyContent: 'center' }}>
                     <TouchableOpacity style={styles.guardarBtn}>
@@ -182,6 +185,11 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         backgroundColor: 'white'
     },
+    logo: {
+        borderRadius: 20,
+        width: '90%',
+        height: '40%',
+      },
     productoContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
