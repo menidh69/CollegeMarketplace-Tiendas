@@ -54,7 +54,7 @@ const RegistroProducto = ({navigation})=>{
             datos.id_tienda = tienda.id;
             const body = datos;
             body.url_imagen = downloadURL;
-            const response = await fetch('http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/nuevoProducto',
+            const response = await fetch('http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/nuevoProducto',
                 {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

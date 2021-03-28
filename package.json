@@ -45,6 +45,6 @@
     "react-test-renderer": "~16.13.1"
   },
   "private": true,
-  "name": "CollegeMarketplace-Tiendas",
+  "name": "Collegemarketplace-Tienda",
   "version": "1.0.0"
 }

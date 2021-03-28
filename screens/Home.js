@@ -26,7 +26,7 @@ const Home = ({ route }) => {
     }, []);
 
     const fetchitems = async (id) => {
-        const data = await fetch(`http://college-marketplace.eba-kd3ehnpr.us-east-2.elasticbeanstalk.com/api/v1/usuarioinfo/${route.params.id}`);
+        const data = await fetch(`http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/usuarioinfo/${route.params.id}`);
         const it = await data.json();
         setItems(it[0]);
         console.log(it[0])

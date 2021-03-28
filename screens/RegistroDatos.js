@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity } from 'react-native';
+import { TextInput, Text, View, StyleSheet, Button, Touchable, ScrollView, TouchableOpacity } from 'react-native';
 import {RegistroContext} from '../RegistroContext';
 import {emailValidation, isEmptyNull, repeatPassword} from '../functions/formValidation';
 import ErrorModal from '../components/ErrorModal';
@@ -82,7 +82,7 @@ const RegistroDatos = ({navigation, route})=>{
       });
 
     return(
-        <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <Text style={styles.titleText}>
             Crea tu cuenta
         </Text>
@@ -154,6 +154,7 @@ const RegistroDatos = ({navigation, route})=>{
         onChangeText={text => onChangeText(text, "telefono")}
         value={datos.telefono}
       />
+      
       </View>
       
       <TouchableOpacity onPress={() =>
@@ -165,7 +166,7 @@ const RegistroDatos = ({navigation, route})=>{
         </Text>
           </TouchableOpacity>
           <ErrorModal setShow={setShowModal} show={showmodal} message={modalMessage}></ErrorModal>
-      </View>
+      </ScrollView>
     )
 
 
