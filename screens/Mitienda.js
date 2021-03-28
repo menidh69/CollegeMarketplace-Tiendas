@@ -71,7 +71,7 @@ return(
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#B1D8EE',
+    backgroundColor: '#C0D5E1',
     justifyContent: 'center',
     alignItems: 'center'},
     text: {
