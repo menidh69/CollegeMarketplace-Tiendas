@@ -10,6 +10,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Platform,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { ProductoContext } from "../ProductoContext";
@@ -91,23 +92,25 @@ const AgregarProducto = ({ navigation }) => {
       </View>
 
       <Text>Categoría:</Text>
-
-      <Picker
-        selectedValue={categoria}
-        onValueChange={(value, itemIndex) => {
-          setValue("categoria", value);
-          setCategoria(value);
-        }}
-        style={{ height: 50, width: "70%" }}
-      >
-        <Picker.Item label="Desayuno" value="1" />
-        <Picker.Item label="Comida" value="2" />
-        <Picker.Item label="Saludable" value="3" />
-        <Picker.Item label="Bebidas" value="4" />
-        <Picker.Item label="Postres" value="5" />
-        <Picker.Item label="Snacks" value="6" />
-      </Picker>
-
+      <View style={styles.pickerView}>
+        <Picker
+          selectedValue={categoria}
+          style={styles.picker}
+          itemStyle={styles.pickerItem}
+          onValueChange={(value, itemIndex) => {
+            setValue("categoria", value);
+            setCategoria(value);
+          }}
+          style={{ height: 50, width: "70%" }}
+        >
+          <Picker.Item label="Desayuno" value="1" />
+          <Picker.Item label="Comida" value="2" />
+          <Picker.Item label="Saludable" value="3" />
+          <Picker.Item label="Bebidas" value="4" />
+          <Picker.Item label="Postres" value="5" />
+          <Picker.Item label="Snacks" value="6" />
+        </Picker>
+      </View>
       <Text>Descripción:</Text>
       <View style={styles.inputViewDescripcion}>
         <TextInput
@@ -149,6 +152,34 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginTop: 10,
+  },
+  pickerItem: {
+    width: 200,
+    height: 132,
+    backgroundColor: "#C0D5E1",
+    borderColor: "black",
+  },
+  pickerView:
+    Platform.OS === "ios"
+      ? {
+          width: "70%",
+          alignItems: "center",
+          height: 132,
+          marginBottom: 20,
+          marginTop: 10,
+        }
+      : {
+          backgroundColor: "#E2DFDF",
+          borderRadius: 30,
+          width: "70%",
+          height: 50,
+          marginBottom: 20,
+          alignItems: "center",
+          marginTop: 10,
+        },
+  picker: {
+    flex: 1,
+    backgroundColor: "#C0D5E1",
   },
   TextInput: {
     height: 50,

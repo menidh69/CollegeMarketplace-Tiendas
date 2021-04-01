@@ -11,6 +11,7 @@ import {
   ScrollView,
   TouchableOpacity,
   TextInput,
+  Platform,
 } from "react-native";
 import { NavigationContainer, StackActions } from "@react-navigation/native";
 import { useNavigation } from "@react-navigation/native";
@@ -63,7 +64,6 @@ const EditarProducto = ({ route }) => {
     register("url_imagen");
     register("descripcion");
   }, [register]);
-
   var precio = route.params.producto.precio;
   var precioText = "" + precio;
   return (
@@ -98,22 +98,25 @@ const EditarProducto = ({ route }) => {
       </View>
 
       <Text>Categoría:</Text>
-      <Picker
-        defaultValue={String(route.params.producto.id_categoria)}
-        selectedValue={categoria}
-        onValueChange={(value, itemIndex) => {
-          setValue("id_categoria", value);
-          setCategoria(value);
-        }}
-        style={{ height: 50, width: "70%" }}
-      >
-        <Picker.Item label="Desayuno" value="1" />
-        <Picker.Item label="Comida" value="2" />
-        <Picker.Item label="Saludable" value="3" />
-        <Picker.Item label="Bebidas" value="4" />
-        <Picker.Item label="Postres" value="5" />
-        <Picker.Item label="Snacks" value="6" />
-      </Picker>
+      <View style={styles.pickerView}>
+        <Picker
+          style={styles.picker}
+          itemStyle={styles.pickerItem}
+          defaultValue={String(route.params.producto.id_categoria)}
+          selectedValue={categoria}
+          onValueChange={(value, itemIndex) => {
+            setValue("id_categoria", value);
+            setCategoria(value);
+          }}
+        >
+          <Picker.Item label="Desayuno" value="1" />
+          <Picker.Item label="Comida" value="2" />
+          <Picker.Item label="Saludable" value="3" />
+          <Picker.Item label="Bebidas" value="4" />
+          <Picker.Item label="Postres" value="5" />
+          <Picker.Item label="Snacks" value="6" />
+        </Picker>
+      </View>
 
       <Text>Descripción:</Text>
       <View style={styles.inputViewDescripcion}>
@@ -179,6 +182,38 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 10,
     marginLeft: 20,
+  },
+  pickerItem: {
+    width: 200,
+    height: 132,
+    backgroundColor: "#C0D5E1",
+    borderColor: "black",
+    color: "black",
+  },
+  pickerView:
+    Platform.OS === "ios"
+      ? {
+          width: "70%",
+          alignItems: "center",
+          height: 132,
+          marginBottom: 20,
+          marginTop: 10,
+        }
+      : {
+          backgroundColor: "#E2DFDF",
+          borderRadius: 30,
+          width: "70%",
+          height: 50,
+          marginBottom: 20,
+          alignItems: "center",
+          marginTop: 10,
+          color: "black",
+        },
+  picker: {
+    height: "100%",
+    width: "100%",
+    flex: 1,
+    alignItems: "center",
   },
   guardarBtn: {
     width: "80%",
