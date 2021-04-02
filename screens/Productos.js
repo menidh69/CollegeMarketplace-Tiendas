@@ -121,6 +121,7 @@ const ProductosScreen = () => {
       <FlatList
         style={styles.listaContainer}
         data={items}
+        keyExtractor={(item) => item.id.toString()}
         renderItem={({ item }) => <Producto producto={item} />}
       />
     </View>
@@ -151,25 +152,21 @@ const Producto = ({ producto }) => {
             justifyContent: "center",
           }}
         >
-          <TouchableOpacity style={styles.guardarBtn}>
-            <Text
-              style={styles.guardarText}
-              onPress={() =>
-                navigation.navigate("EditarProducto", { producto: producto })
-              }
-            >
-              Editar
-            </Text>
+          <TouchableOpacity
+            style={styles.guardarBtn}
+            onPress={() =>
+              navigation.navigate("EditarProducto", { producto: producto })
+            }
+          >
+            <Text style={styles.guardarText}>Editar</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.eliminarBtn}>
-            <Text
-              style={styles.eliminarText}
-              onPress={() =>
-                navigation.navigate("EliminarProducto", { producto: producto })
-              }
-            >
-              Eliminar
-            </Text>
+          <TouchableOpacity
+            style={styles.eliminarBtn}
+            onPress={() =>
+              navigation.navigate("EliminarProducto", { producto: producto })
+            }
+          >
+            <Text style={styles.eliminarText}>Eliminar</Text>
           </TouchableOpacity>
         </View>
       </View>
