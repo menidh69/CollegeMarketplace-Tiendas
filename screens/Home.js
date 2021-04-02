@@ -29,17 +29,6 @@ const Home = ({ route }) => {
   );
 };
 
-const HomeScreen = () => {
-  const { user } = useContext(NewUserContext);
-  return (
-    <>
-      <View>
-        <Text>Hola este es el inicio {user.nombre} </Text>
-      </View>
-    </>
-  );
-};
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
