@@ -121,7 +121,7 @@ const EditarProducto = ({ route }) => {
       var uploadTask = firebase
         .storage()
         .ref()
-        .child("producto/" + tienda.id + "-" + route.params.producto.nombre)
+        .child("producto/" + tienda.id + "-" + nombre)
         .put(blob);
       uploadTask.on(
         "state_changed",
