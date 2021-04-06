@@ -373,7 +373,7 @@ const Ventas = () => {
           </View>
         </View>
       ) : (
-        <Text>Aun no tienes ventas</Text>
+        <Text style={styles.title}>Aun no tienes ventas</Text>
       )}
     </ScrollView>
   );
