@@ -24,6 +24,7 @@ import RegistroProducto from "./RegistroProducto";
 import Food from "../assets/food.png";
 import EditarProducto from "./EditarProducto";
 import EliminarProducto from "./EliminarProducto";
+import DateTimePicker from "@react-native-community/datetimepicker";
 
 const Stack = createStackNavigator();
 
@@ -53,6 +54,24 @@ const VentasStack = () => {
         component={Ventas}
         options={{
           title: "Ventas mensuales",
+          headerTitleAlign: "center",
+          headerStatusBarHeight: 18,
+          headerTitleStyle: {
+            fontSize: 24,
+          },
+          headerStyle: {
+            backgroundColor: "#C0D5E1",
+            shadowOffset: {
+              height: 0,
+            },
+          },
+        }}
+      />
+      <Stack.Screen
+        name="VentaDiaria"
+        component={VentaDiaria}
+        options={{
+          title: "Ventas Diaria",
           headerTitleAlign: "center",
           headerStatusBarHeight: 18,
           headerTitleStyle: {
@@ -118,6 +137,15 @@ const Balance = () => {
         >
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={styles.btnText}>Historial de ventas</Text>
+            <Text style={styles.btnIcon}>➡︎</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.buttonBlock, styles.shadow]}
+          onPress={() => navigation.navigate("VentaDiaria")}
+        >
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={styles.btnText}>Venta diaria</Text>
             <Text style={styles.btnIcon}>➡︎</Text>
           </View>
         </TouchableOpacity>
@@ -375,6 +403,130 @@ const Ventas = () => {
       ) : (
         <Text style={styles.title}>Aun no tienes ventas</Text>
       )}
+    </ScrollView>
+  );
+};
+
+const getFormattedDate = (today) => {
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  const yyyy = today.getFullYear();
+  return yyyy + "-" + mm + "-" + dd;
+};
+
+const VentaDiaria = () => {
+  const { tienda } = useContext(TiendaContext);
+  const [items, setItems] = useState();
+  const [date, setDate] = useState(new Date());
+  const [show, setShow] = useState(false);
+  const [shortDate, setShortDate] = useState(getFormattedDate(date));
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(Platform.OS === "ios");
+    setDate(currentDate);
+    console.log(currentDate);
+    const fecha = getFormattedDate(currentDate);
+    setShortDate(fecha);
+  };
+
+  const showMode = () => {
+    setShow(true);
+  };
+
+  const showDatepicker = () => {
+    showMode("date");
+  };
+
+  useEffect(() => {
+    let isMounted = true;
+    console.log(shortDate);
+    if (isMounted) {
+      fetchItems().then((json) => {
+        if (json !== undefined) {
+          setItems(json.ventas);
+        }
+      });
+    }
+    return () => (isMounted = false);
+  }, [shortDate]);
+
+  const fetchItems = async () => {
+    const items = await fetch(
+      `http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v1/ventas/${tienda.id}?date=%22${shortDate}%22`
+    );
+    const json = await items.json();
+    console.log(json);
+    return json;
+  };
+
+  const RenderVenta = ({ item }) => (
+    <View
+      style={{
+        ...styles.row,
+        backgroundColor: "#FFE0BA",
+        justifyContent: "space-between",
+      }}
+    >
+      <Text>{item.id}</Text>
+      <Text>{item.id_usuario}</Text>
+      <Text>$ {item.amount}</Text>
+    </View>
+  );
+
+  return (
+    <ScrollView contentContainerStyle={styles.container}>
+      <TouchableOpacity
+        style={{
+          ...styles.shadow,
+          backgroundColor: "orange",
+          padding: 10,
+          borderRadius: 20,
+        }}
+        onPress={showDatepicker}
+        title="Show date picker!"
+      >
+        <Text style={{ ...styles.titulo, color: "white" }}>
+          {shortDate.toString()}
+        </Text>
+      </TouchableOpacity>
+      {show && (
+        <DateTimePicker
+          testID="dateTimePicker"
+          value={date}
+          mode={"date"}
+          is24Hour={true}
+          display="default"
+          onChange={onChange}
+        />
+      )}
+
+      <View style={styles.card}>
+        {items && items.length > 0 ? (
+          <>
+            <View
+              style={{
+                ...styles.row,
+                backgroundColor: "#FFE0BA",
+                justifyContent: "space-between",
+              }}
+            >
+              <Text style={{ fontWeight: "bold" }}>ID_orden</Text>
+              <Text style={{ fontWeight: "bold" }}>Usuario</Text>
+              <Text style={{ fontWeight: "bold" }}>Cantidad</Text>
+            </View>
+            <FlatList
+              data={items}
+              renderItem={RenderVenta}
+              keyExtractor={(item) => item.id}
+            />
+          </>
+        ) : (
+          <Text style={styles.titulo}>
+            No se han registrado ventas en esta fecha
+          </Text>
+        )}
+      </View>
     </ScrollView>
   );
 };
