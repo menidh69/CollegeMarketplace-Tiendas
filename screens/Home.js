@@ -12,6 +12,7 @@ import Pedidos from "./Pedidos";
 import Mitienda from "./Mitienda";
 import MiCuenta from "./Micuenta";
 import Ventas from "./Ventas";
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Home = ({ route }) => {
   const Tab = createBottomTabNavigator();
@@ -19,11 +20,36 @@ const Home = ({ route }) => {
   return (
     <>
       <Tab.Navigator>
-        <Tab.Screen name="Mi Tienda" children={() => <Mitienda />} />
-        <Tab.Screen name="Productos" children={() => <Productos />} />
-        <Tab.Screen name="Pedidos" children={() => <Pedidos />} />
-        <Tab.Screen name="Ventas" children={() => <Ventas />} />
-        <Tab.Screen name="Mi Cuenta" children={() => <MiCuenta />} />
+        <Tab.Screen name="Mi Tienda" children={() => <Mitienda />}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="store" color={color} size={size} />
+            ),
+          }} />
+        <Tab.Screen name="Productos" children={() => <Productos />}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="food-fork-drink" color={color} size={size} />
+            ),
+          }} />
+        <Tab.Screen name="Pedidos" children={() => <Pedidos />}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="ticket" color={color} size={size} />
+            ),
+          }} />
+        <Tab.Screen name="Ventas" children={() => <Ventas />}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="currency-usd" color={color} size={size} />
+            ),
+          }} />
+        <Tab.Screen name="Mi Cuenta" children={() => <MiCuenta />}
+          options={{
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account" color={color} size={size} />
+            ),
+          }} />
       </Tab.Navigator>
     </>
   );
