@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import React, { useContext, useState, useEffect } from "react";
+import React, {alert, useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   TabBarIOS,
@@ -24,6 +24,8 @@ import RegistroProducto from "./RegistroProducto";
 import Food from "../assets/food.png";
 import EditarProducto from "./EditarProducto";
 import EliminarProducto from "./EliminarProducto";
+import NumericInput from 'react-native-numeric-input'
+
 
 const Stack = createStackNavigator();
 
@@ -66,7 +68,65 @@ const VentasStack = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="Retiros"
+        component={Retiros}
+        options={{
+          title: "Transacciones",
+          headerTitleAlign: "center",
+          headerStatusBarHeight: 18,
+          headerTitleStyle: {
+            fontSize: 24,
+          },
+          headerStyle: {
+            backgroundColor: "#C0D5E1",
+            shadowOffset: {
+              height: 0,
+            },
+          },
+        }}
+      />
+
+<Stack.Screen
+        name="Histreti"
+        component={Histreti}
+        options={{
+          title: "Historial de retiros",
+          headerTitleAlign: "center",
+          headerStatusBarHeight: 18,
+          headerTitleStyle: {
+            fontSize: 24,
+          },
+          headerStyle: {
+            backgroundColor: "#C0D5E1",
+            shadowOffset: {
+              height: 0,
+            },
+          },
+        }}
+      />
+
+<Stack.Screen
+        name="Solreti"
+        component={Solreti}
+        options={{
+          title: "Hacer retiro",
+          headerTitleAlign: "center",
+          headerStatusBarHeight: 18,
+          headerTitleStyle: {
+            fontSize: 24,
+          },
+          headerStyle: {
+            backgroundColor: "#C0D5E1",
+            shadowOffset: {
+              height: 0,
+            },
+          },
+        }}
+      />
     </Stack.Navigator>
+    
+    
   );
 };
 
@@ -121,7 +181,8 @@ const Balance = () => {
             <Text style={styles.btnIcon}>➡︎</Text>
           </View>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.buttonBlock, styles.shadow]}>
+        <TouchableOpacity style={[styles.buttonBlock, styles.shadow]}
+         onPress={() => navigation.navigate("Retiros")}>
           <View style={{ flexDirection: "row", alignItems: "center" }}>
             <Text style={styles.btnText}>Retiros</Text>
             <Text style={styles.btnIcon}>➡︎</Text>
@@ -138,6 +199,27 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     padding: 20,
+  },
+  container2: {
+    backgroundColor: "#C0D5E1",
+    flex: 1,
+    alignItems: "center",
+    padding: 20,
+    borderBottomColor: 'black',
+    borderBottomWidth: 1
+  },
+  agregarNuevoBtn: {
+    marginTop: 20,
+    backgroundColor: "#E99125",
+    padding: 15,
+    borderRadius: 25,
+    width: "70%",
+  },
+  textAgregarNuevoBtn: {
+    fontSize: 20,
+    color: "#FFF",
+    fontWeight: "bold",
+    textAlign: "center",
   },
   row: {
     flexDirection: "row",
@@ -162,13 +244,32 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
   },
+  titulo2: {
+    color: "#000",
+    fontSize: 17,
+    fontWeight: "bold",
+    textAlign: "center",
+    padding: 20,
+    textDecorationLine: 'underline'
+  },
   card: {
     backgroundColor: "white",
     width: "100%",
     borderRadius: 30,
     marginVertical: 20,
     padding: 20,
+    
   },
+  card2: {
+    backgroundColor: "white",
+    width: "100%",
+    alignItems: "center",
+    borderRadius: 30,
+    marginVertical: 20,
+    padding: 25,
+    
+  },
+
   balance: {
     fontSize: 38,
     fontWeight: "normal",
@@ -378,5 +479,79 @@ const Ventas = () => {
     </ScrollView>
   );
 };
+
+const Retiros = () => {
+  const navigation = useNavigation();
+  return (
+  <>
+  <View style={styles.container}>
+    
+    <TouchableOpacity
+      style={[styles.buttonBlock, styles.shadow]}
+      onPress={() => navigation.navigate("Histreti")}
+    >
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text style={styles.btnText}>Historial de retiros</Text>
+        <Text style={styles.btnIcon}>➡︎</Text>
+      </View>
+    </TouchableOpacity>
+    <TouchableOpacity style={[styles.buttonBlock, styles.shadow]}
+     onPress={() => navigation.navigate("Solreti")}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <Text style={styles.btnText}>Solicitar retiro</Text>
+        <Text style={styles.btnIcon}>➡︎</Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+</>
+  )
+};
+
+const Histreti = () => {
+ return(
+  <>
+  <View style={styles.container}>
+        <Text style={styles.title}>Aun no has hecho retiros</Text>
+        </View>
+        </>
+
+  );
+};
+
+const Solreti = () => {
+
+  return(
+   <>
+   <View style={styles.container}>
+   <View style={[styles.card2, styles.shadow]}>
+         <Text style={styles.titulo}>Cantidad</Text>
+         <NumericInput 
+        onChange={value => console.log(value)} 
+         rounded
+         minValue	= {0}
+         valueType='real'
+         totalWidth={200} 
+         totalHeight={50}   
+         textColor='#B0228C' 
+         iconStyle={{ color: 'white' }} 
+         rightButtonBackgroundColor='#C0D5E1' 
+         leftButtonBackgroundColor='#C0D5E1'/> 
+         </View>
+         <TouchableOpacity
+        style={styles.agregarNuevoBtn}
+        onPress={() =>  console.log('Solicitando')}
+      >
+        <Text style={styles.textAgregarNuevoBtn}>Solicitar</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={() =>  console.log('Cancelando')}>
+      <Text style={styles.titulo2}>Cancelar</Text>
+      
+      </TouchableOpacity>
+         </View>
+         </>
+       
+   );
+ };
+
 
 export default VentasStack;
