@@ -233,10 +233,9 @@ const MicuentaScreen = ({ user }) => {
         <List.Accordion title="Tarjeta">
           <View style={styles.informacionBancaria}>
             <View style={styles.tarjetasContainer}>
-              <Text>Mis tarjetas</Text>
               {infoBancaria === undefined ? (
                 <>
-                  <Text>No hay tarjetas aun</Text>
+                  <Text>No has registrado ninguna tarjeta</Text>
                   <View style={styles.agregarTarjetaBtnContainer}>
                     <TouchableOpacity
                       style={styles.agregarTarjetaBtn}
@@ -249,19 +248,22 @@ const MicuentaScreen = ({ user }) => {
                   </View>
                 </>
               ) : (
-                <View style={{ flexDirection: "row" }}>
-                  <Text>{infoBancaria.tarjeta.card_number}</Text>
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: "red",
-                      marginHorizontal: 20,
-                      padding: 15,
-                    }}
-                    onPress={borrarTarjeta}
-                  >
-                    <Text>Borrar</Text>
-                  </TouchableOpacity>
-                </View>
+                <>
+                  <Text>Numero de tarjeta</Text>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text>{infoBancaria.tarjeta.card_number}</Text>
+                    <TouchableOpacity
+                      style={{
+                        backgroundColor: "red",
+                        marginHorizontal: 20,
+                        padding: 15,
+                      }}
+                      onPress={borrarTarjeta}
+                    >
+                      <Text>Borrar</Text>
+                    </TouchableOpacity>
+                  </View>
+                </>
               )}
             </View>
           </View>
@@ -271,10 +273,9 @@ const MicuentaScreen = ({ user }) => {
         <List.Accordion title="Cuenta Bancaria">
           <View style={styles.informacionBancaria}>
             <View style={styles.tarjetasContainer}>
-              <Text>Mi Cuenta Bancaria</Text>
-              {infoBancaria === undefined ? (
+              {cuentaBancaria === undefined ? (
                 <>
-                  <Text>No hay tarjetas aun</Text>
+                  <Text>No has registrado ninguna cuenta bancaria</Text>
                   <View style={styles.agregarTarjetaBtnContainer}>
                     <TouchableOpacity
                       style={styles.agregarTarjetaBtn}
@@ -288,8 +289,9 @@ const MicuentaScreen = ({ user }) => {
                 </>
               ) : (
                 <>
-                  <View style={{ flexDirection: "row" }}>
-                    <Text>{infoBancaria.tarjeta.card_number}</Text>
+                  <Text>Clabe</Text>
+                  <View style={{ flexDirection: "row", alignItems: "center" }}>
+                    <Text>{cuentaBancaria.clabe}</Text>
                     <TouchableOpacity
                       style={{
                         backgroundColor: "red",
