@@ -182,42 +182,44 @@ const Balance = () => {
   return (
     <>
       <View style={styles.container}>
-        {balance && (
-          <View style={[styles.card, styles.shadow]}>
-            <Text style={styles.titulo}>Balance</Text>
-            <Text style={[styles.titulo, styles.balance]}>
-              $ {balance.balance}
-            </Text>
-          </View>
-        )}
-        <TouchableOpacity
-          style={[styles.buttonBlock, styles.shadow]}
-          onPress={() => navigation.navigate("Ventas")}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.btnText}>Historial de ventas</Text>
-            <Text style={styles.btnIcon}>➡︎</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonBlock, styles.shadow]}
-          onPress={() => navigation.navigate("VentaDiaria")}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.btnText}>Venta diaria</Text>
-            <Text style={styles.btnIcon}>➡︎</Text>
-          </View>
-        </TouchableOpacity>
+        <ScrollView contentContainerStyle={{ padding: 30 }}>
+          {balance && (
+            <View style={[styles.card, styles.shadow]}>
+              <Text style={styles.titulo}>Balance</Text>
+              <Text style={[styles.titulo, styles.balance]}>
+                $ {balance.balance}
+              </Text>
+            </View>
+          )}
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("Ventas")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Historial de ventas</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("VentaDiaria")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Venta diaria</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.buttonBlock, styles.shadow]}
-          onPress={() => navigation.navigate("Retiros")}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.btnText}>Retiros</Text>
-            <Text style={styles.btnIcon}>➡︎</Text>
-          </View>
-        </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("Retiros")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Retiros</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
     </>
   );
@@ -227,8 +229,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#C0D5E1",
     flex: 1,
-    alignItems: "center",
-    padding: 20,
   },
   container2: {
     backgroundColor: "#C0D5E1",
@@ -409,102 +409,104 @@ const Ventas = () => {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {items ? (
-        <View style={styles.card}>
-          {grafica ? (
-            <BarChart
-              style={{
-                marginVertical: 8,
-                borderRadius: 16,
-              }}
-              data={graphData}
-              width={Dimensions.get("window").width * 0.8}
-              height={400}
-              yAxisLabel="$"
-              chartConfig={chartConfig}
-              verticalLabelRotation={90}
-              fromZero={true}
-            />
-          ) : (
-            <>
-              <View
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={{ padding: 30 }}>
+        {items ? (
+          <View style={styles.card}>
+            {grafica ? (
+              <BarChart
                 style={{
-                  ...styles.row,
-                  backgroundColor: "#E99125",
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
+                  marginVertical: 8,
+                  borderRadius: 16,
                 }}
-              >
-                <Text style={{ ...styles.column1, fontWeight: "bold" }}>
-                  Mes
-                </Text>
-                <Text style={{ ...styles.column2, fontWeight: "bold" }}>
-                  Ventas
-                </Text>
-              </View>
-              <View>
-                <FlatList
-                  data={items}
-                  renderItem={renderItem}
-                  keyExtractor={(item) => item.mes}
-                />
-              </View>
-              <View
+                data={graphData}
+                width={Dimensions.get("window").width * 0.8}
+                height={400}
+                yAxisLabel="$"
+                chartConfig={chartConfig}
+                verticalLabelRotation={90}
+                fromZero={true}
+              />
+            ) : (
+              <>
+                <View
+                  style={{
+                    ...styles.row,
+                    backgroundColor: "#E99125",
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                  }}
+                >
+                  <Text style={{ ...styles.column1, fontWeight: "bold" }}>
+                    Mes
+                  </Text>
+                  <Text style={{ ...styles.column2, fontWeight: "bold" }}>
+                    Ventas
+                  </Text>
+                </View>
+                <View>
+                  <FlatList
+                    data={items}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.mes}
+                  />
+                </View>
+                <View
+                  style={{
+                    ...styles.row,
+                    backgroundColor: "#FFE0BA",
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                  }}
+                ></View>
+              </>
+            )}
+            <View
+              style={{
+                ...styles.row,
+                justifyContent: "space-around",
+                marginVertical: 5,
+              }}
+            >
+              <TouchableOpacity
                 style={{
-                  ...styles.row,
-                  backgroundColor: "#FFE0BA",
-                  borderBottomLeftRadius: 20,
-                  borderBottomRightRadius: 20,
+                  ...[styles.column1, styles.shadow],
+                  backgroundColor: "#1E6995",
+                  width: "40%",
+                  paddingVertical: 5,
+                  borderRadius: 10,
                 }}
-              ></View>
-            </>
-          )}
-          <View
-            style={{
-              ...styles.row,
-              justifyContent: "space-around",
-              marginVertical: 5,
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                ...[styles.column1, styles.shadow],
-                backgroundColor: "#1E6995",
-                width: "40%",
-                paddingVertical: 5,
-                borderRadius: 10,
-              }}
-              onPress={() => setGrafica(false)}
-            >
-              <Text
-                style={{ fontSize: 20, textAlign: "center", color: "white" }}
+                onPress={() => setGrafica(false)}
               >
-                Tabla
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                ...[styles.column2, styles.shadow],
-                backgroundColor: "#1E6995",
-                width: "40%",
-                paddingVertical: 5,
-                borderRadius: 10,
-              }}
-              onPress={() => setGrafica(true)}
-            >
-              <Text
-                style={{ fontSize: 20, textAlign: "center", color: "white" }}
+                <Text
+                  style={{ fontSize: 20, textAlign: "center", color: "white" }}
+                >
+                  Tabla
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  ...[styles.column2, styles.shadow],
+                  backgroundColor: "#1E6995",
+                  width: "40%",
+                  paddingVertical: 5,
+                  borderRadius: 10,
+                }}
+                onPress={() => setGrafica(true)}
               >
-                Grafica
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{ fontSize: 20, textAlign: "center", color: "white" }}
+                >
+                  Grafica
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      ) : (
-        <Text style={styles.title}>Aun no tienes ventas</Text>
-      )}
-    </ScrollView>
+        ) : (
+          <Text style={styles.title}>Aun no tienes ventas</Text>
+        )}
+      </ScrollView>
+    </View>
   );
 };
 
@@ -513,24 +515,26 @@ const Retiros = () => {
   return (
     <>
       <View style={styles.container}>
-        <TouchableOpacity
-          style={[styles.buttonBlock, styles.shadow]}
-          onPress={() => navigation.navigate("Histreti")}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.btnText}>Historial de retiros</Text>
-            <Text style={styles.btnIcon}>➡︎</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonBlock, styles.shadow]}
-          onPress={() => navigation.navigate("Solreti")}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.btnText}>Solicitar retiro</Text>
-            <Text style={styles.btnIcon}>➡︎</Text>
-          </View>
-        </TouchableOpacity>
+        <ScrollView contentContainerStyle={{ padding: 30 }}>
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("Histreti")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Historial de retiros</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("Solreti")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Solicitar retiro</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
     </>
   );
@@ -596,40 +600,42 @@ const Histreti = () => {
   return (
     <>
       <View style={styles.container}>
-        {items === undefined ? (
-          <Text style={styles.title}>Aun no has hecho retiros</Text>
-        ) : (
-          <>
-            <View style={{ width: "100%" }}>
-              <View
-                style={{
-                  ...styles.row,
-                  backgroundColor: "#E99125",
-                  justifyContent: "space-between",
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
-                }}
-              >
-                <Text style={styles.titulo}>Fecha</Text>
-                <Text style={styles.titulo}> Monto</Text>
-                <Text style={styles.titulo}> Status</Text>
+        <ScrollView contentContainerStyle={{ padding: 30 }}>
+          {items === undefined ? (
+            <Text style={styles.title}>Aun no has hecho retiros</Text>
+          ) : (
+            <>
+              <View style={{ width: "100%" }}>
+                <View
+                  style={{
+                    ...styles.row,
+                    backgroundColor: "#E99125",
+                    justifyContent: "space-between",
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                  }}
+                >
+                  <Text style={styles.titulo}>Fecha</Text>
+                  <Text style={styles.titulo}> Monto</Text>
+                  <Text style={styles.titulo}> Status</Text>
+                </View>
+                <FlatList
+                  data={items}
+                  renderItem={renderItem}
+                  keyExtractor={(item) => item.id}
+                />
+                <View
+                  style={{
+                    ...styles.row,
+                    backgroundColor: "#FFE0BA",
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                  }}
+                ></View>
               </View>
-              <FlatList
-                data={items}
-                renderItem={renderItem}
-                keyExtractor={(item) => item.id}
-              />
-              <View
-                style={{
-                  ...styles.row,
-                  backgroundColor: "#FFE0BA",
-                  borderBottomLeftRadius: 20,
-                  borderBottomRightRadius: 20,
-                }}
-              ></View>
-            </View>
-          </>
-        )}
+            </>
+          )}
+        </ScrollView>
       </View>
     </>
   );
@@ -677,37 +683,39 @@ const Solreti = () => {
 
   return (
     <>
-      <View style={styles.container}>
-        <View style={[styles.card2, styles.shadow]}>
-          <Text style={styles.titulo}>Cantidad</Text>
-          <NumericInput
-            onChange={(value) => setCantidad(value)}
-            rounded
-            value={cantidad}
-            valueType="real"
-            totalWidth={300}
-            totalHeight={50}
-            textColor="#B0228C"
-            iconStyle={{ color: "white" }}
-            rightButtonBackgroundColor="#C0D5E1"
-            leftButtonBackgroundColor="#C0D5E1"
-          />
-        </View>
-        <TouchableOpacity
-          style={styles.agregarNuevoBtn}
-          onPress={() => solicitarRetiro()}
-        >
-          <Text style={styles.textAgregarNuevoBtn}>Solicitar</Text>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => console.log("Cancelando")}>
-          <Text style={styles.titulo2}>Cancelar</Text>
-        </TouchableOpacity>
-        <LoadingModal
-          loading={loading}
-          show={showModal}
-          setShow={setShowModal}
-          message={message}
-        ></LoadingModal>
+      <View style={{ ...styles.container }}>
+        <ScrollView contentContainerStyle={{ padding: 30 }}>
+          <View style={[styles.card2, styles.shadow]}>
+            <Text style={styles.titulo}>Cantidad</Text>
+            <NumericInput
+              onChange={(value) => setCantidad(value)}
+              rounded
+              value={cantidad}
+              valueType="real"
+              totalWidth={300}
+              totalHeight={50}
+              textColor="#B0228C"
+              iconStyle={{ color: "white" }}
+              rightButtonBackgroundColor="#C0D5E1"
+              leftButtonBackgroundColor="#C0D5E1"
+            />
+          </View>
+          <TouchableOpacity
+            style={{ ...styles.agregarNuevoBtn, alignSelf: "center" }}
+            onPress={() => solicitarRetiro()}
+          >
+            <Text style={styles.textAgregarNuevoBtn}>Solicitar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("Cancelando")}>
+            <Text style={styles.titulo2}>Cancelar</Text>
+          </TouchableOpacity>
+          <LoadingModal
+            loading={loading}
+            show={showModal}
+            setShow={setShowModal}
+            message={message}
+          ></LoadingModal>
+        </ScrollView>
       </View>
     </>
   );
@@ -781,59 +789,61 @@ const VentaDiaria = () => {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity
-        style={{
-          ...styles.shadow,
-          backgroundColor: "orange",
-          padding: 10,
-          borderRadius: 20,
-        }}
-        onPress={showDatepicker}
-        title="Show date picker!"
-      >
-        <Text style={{ ...styles.titulo, color: "white" }}>
-          {shortDate.toString()}
-        </Text>
-      </TouchableOpacity>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={"date"}
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
-      )}
-
-      <View style={styles.card}>
-        {items && items.length > 0 ? (
-          <>
-            <View
-              style={{
-                ...styles.row,
-                backgroundColor: "#FFE0BA",
-                justifyContent: "space-between",
-              }}
-            >
-              <Text style={{ fontWeight: "bold" }}>ID_orden</Text>
-              <Text style={{ fontWeight: "bold" }}>Usuario</Text>
-              <Text style={{ fontWeight: "bold" }}>Cantidad</Text>
-            </View>
-            <FlatList
-              data={items}
-              renderItem={RenderVenta}
-              keyExtractor={(item) => item.id}
-            />
-          </>
-        ) : (
-          <Text style={styles.titulo}>
-            No se han registrado ventas en esta fecha
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={{ padding: 30 }}>
+        <TouchableOpacity
+          style={{
+            ...styles.shadow,
+            backgroundColor: "orange",
+            padding: 10,
+            borderRadius: 20,
+          }}
+          onPress={showDatepicker}
+          title="Show date picker!"
+        >
+          <Text style={{ ...styles.titulo, color: "white" }}>
+            {shortDate.toString()}
           </Text>
+        </TouchableOpacity>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={"date"}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
         )}
-      </View>
-    </ScrollView>
+
+        <View style={styles.card}>
+          {items && items.length > 0 ? (
+            <>
+              <View
+                style={{
+                  ...styles.row,
+                  backgroundColor: "#FFE0BA",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={{ fontWeight: "bold" }}>ID_orden</Text>
+                <Text style={{ fontWeight: "bold" }}>Usuario</Text>
+                <Text style={{ fontWeight: "bold" }}>Cantidad</Text>
+              </View>
+              <FlatList
+                data={items}
+                renderItem={RenderVenta}
+                keyExtractor={(item) => item.id}
+              />
+            </>
+          ) : (
+            <Text style={styles.titulo}>
+              No se han registrado ventas en esta fecha
+            </Text>
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
