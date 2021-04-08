@@ -185,140 +185,149 @@ const MicuentaScreen = ({ user }) => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <List.Section style={styles.datosPersonales}>
-        <List.Accordion title="Detalles personales">
-          <View style={styles.detallesContainer}>
-            <View style={styles.imagen}></View>
-            <View style={styles.datosPersonalesList}>
-              <Text>
-                {user.nombre} {user.apellidos}
-              </Text>
-              <Text>{user.email}</Text>
-              <View
-                style={{
-                  marginTop: 10,
-                  marginBottom: 10,
-                  borderBottomColor: "black",
-                  borderBottomWidth: 1,
-                }}
-              />
-              <Text>{user.tel}</Text>
-              <View
-                style={{
-                  marginTop: 10,
-                  marginBottom: 10,
-                  borderBottomColor: "black",
-                  borderBottomWidth: 1,
-                }}
-              />
+    <View style={styles.container}>
+      <ScrollView
+        style={{ width: "100%", paddingTop: 40 }}
+        contentContainerStyle={{ alignItems: "center", paddingBottom: 60 }}
+      >
+        <List.Section style={styles.datosPersonales}>
+          <List.Accordion title="Detalles personales">
+            <View style={styles.detallesContainer}>
+              <View style={styles.imagen}></View>
+              <View style={styles.datosPersonalesList}>
+                <Text>
+                  {user.nombre} {user.apellidos}
+                </Text>
+                <Text>{user.email}</Text>
+                <View
+                  style={{
+                    marginTop: 10,
+                    marginBottom: 10,
+                    borderBottomColor: "black",
+                    borderBottomWidth: 1,
+                  }}
+                />
+                <Text>{user.tel}</Text>
+                <View
+                  style={{
+                    marginTop: 10,
+                    marginBottom: 10,
+                    borderBottomColor: "black",
+                    borderBottomWidth: 1,
+                  }}
+                />
+              </View>
             </View>
-          </View>
-        </List.Accordion>
-      </List.Section>
-      <List.Section style={styles.datosPersonales}>
-        <List.Accordion title="Ordenes">
-          <View style={styles.detallesContainer}>
-            <View style={styles.imagen}></View>
-            <View style={styles.datosPersonalesList}>
-              <Text>Tarjetas</Text>
-              <TouchableOpacity>
-                <Text>Agregar Tarjeta</Text>
-              </TouchableOpacity>
+          </List.Accordion>
+        </List.Section>
+        <List.Section style={styles.datosPersonales}>
+          <List.Accordion title="Ordenes">
+            <View style={styles.detallesContainer}>
+              <View style={styles.imagen}></View>
+              <View style={styles.datosPersonalesList}>
+                <Text>Tarjetas</Text>
+                <TouchableOpacity>
+                  <Text>Agregar Tarjeta</Text>
+                </TouchableOpacity>
+              </View>
             </View>
-          </View>
-        </List.Accordion>
-      </List.Section>
-      <List.Section style={styles.datosPersonales}>
-        <List.Accordion title="Tarjeta">
-          <View style={styles.informacionBancaria}>
-            <View style={styles.tarjetasContainer}>
-              {infoBancaria === undefined ? (
-                <>
-                  <Text>No has registrado ninguna tarjeta</Text>
-                  <View style={styles.agregarTarjetaBtnContainer}>
-                    <TouchableOpacity
-                      style={styles.agregarTarjetaBtn}
-                      onPress={() => navigation.navigate("AgregarTarjeta")}
+          </List.Accordion>
+        </List.Section>
+        <List.Section style={styles.datosPersonales}>
+          <List.Accordion title="Tarjeta">
+            <View style={styles.informacionBancaria}>
+              <View style={styles.tarjetasContainer}>
+                {infoBancaria === undefined ? (
+                  <>
+                    <Text>No has registrado ninguna tarjeta</Text>
+                    <View style={styles.agregarTarjetaBtnContainer}>
+                      <TouchableOpacity
+                        style={styles.agregarTarjetaBtn}
+                        onPress={() => navigation.navigate("AgregarTarjeta")}
+                      >
+                        <Text style={styles.textoAgregarTarjetaBtn}>
+                          Agregar Tarjeta
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    <Text>Numero de tarjeta</Text>
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
                     >
-                      <Text style={styles.textoAgregarTarjetaBtn}>
-                        Agregar Tarjeta
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              ) : (
-                <>
-                  <Text>Numero de tarjeta</Text>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text>{infoBancaria.tarjeta.card_number}</Text>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "red",
-                        marginHorizontal: 20,
-                        padding: 15,
-                      }}
-                      onPress={borrarTarjeta}
-                    >
-                      <Text>Borrar</Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              )}
+                      <Text>{infoBancaria.tarjeta.card_number}</Text>
+                      <TouchableOpacity
+                        style={{
+                          backgroundColor: "red",
+                          marginHorizontal: 20,
+                          padding: 15,
+                        }}
+                        onPress={borrarTarjeta}
+                      >
+                        <Text>Borrar</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                )}
+              </View>
             </View>
-          </View>
-        </List.Accordion>
-      </List.Section>
-      <List.Section style={styles.datosPersonales}>
-        <List.Accordion title="Cuenta Bancaria">
-          <View style={styles.informacionBancaria}>
-            <View style={styles.tarjetasContainer}>
-              {cuentaBancaria === undefined ? (
-                <>
-                  <Text>No has registrado ninguna cuenta bancaria</Text>
-                  <View style={styles.agregarTarjetaBtnContainer}>
-                    <TouchableOpacity
-                      style={styles.agregarTarjetaBtn}
-                      onPress={handleAgregarCuentaBancaria}
+          </List.Accordion>
+        </List.Section>
+        <List.Section style={styles.datosPersonales}>
+          <List.Accordion title="Cuenta Bancaria">
+            <View style={styles.informacionBancaria}>
+              <View style={styles.tarjetasContainer}>
+                {cuentaBancaria === undefined ? (
+                  <>
+                    <Text>No has registrado ninguna cuenta bancaria</Text>
+                    <View style={styles.agregarTarjetaBtnContainer}>
+                      <TouchableOpacity
+                        style={styles.agregarTarjetaBtn}
+                        onPress={handleAgregarCuentaBancaria}
+                      >
+                        <Text style={styles.textoAgregarTarjetaBtn}>
+                          Agregar Cuenta Bancaria
+                        </Text>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                ) : (
+                  <>
+                    <Text>Clabe</Text>
+                    <View
+                      style={{ flexDirection: "row", alignItems: "center" }}
                     >
-                      <Text style={styles.textoAgregarTarjetaBtn}>
-                        Agregar Cuenta Bancaria
-                      </Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              ) : (
-                <>
-                  <Text>Clabe</Text>
-                  <View style={{ flexDirection: "row", alignItems: "center" }}>
-                    <Text>{cuentaBancaria.clabe}</Text>
-                    <TouchableOpacity
-                      style={{
-                        backgroundColor: "red",
-                        marginHorizontal: 20,
-                        padding: 15,
-                      }}
-                      onPress={borrarCuentaBancaria}
-                    >
-                      <Text>Borrar</Text>
-                    </TouchableOpacity>
-                  </View>
-                </>
-              )}
+                      <Text>{cuentaBancaria.clabe}</Text>
+                      <TouchableOpacity
+                        style={{
+                          backgroundColor: "red",
+                          marginHorizontal: 20,
+                          padding: 15,
+                        }}
+                        onPress={borrarCuentaBancaria}
+                      >
+                        <Text>Borrar</Text>
+                      </TouchableOpacity>
+                    </View>
+                  </>
+                )}
+              </View>
             </View>
-          </View>
-        </List.Accordion>
-      </List.Section>
-      <LoadingModal
-        show={modalShow}
-        setShow={setModalShow}
-        loading={loading}
-        message={message}
-      ></LoadingModal>
-      <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
-        <Text style={styles.textoAgregarTarjetaBtn}>Cerrar sesión</Text>
-      </TouchableOpacity>
-    </ScrollView>
+          </List.Accordion>
+        </List.Section>
+        <LoadingModal
+          show={modalShow}
+          setShow={setModalShow}
+          loading={loading}
+          message={message}
+        ></LoadingModal>
+        <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
+          <Text style={styles.textoAgregarTarjetaBtn}>Cerrar sesión</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    </View>
   );
 };
 
