@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import { StatusBar } from "expo-status-bar";
-import React, {alert, useContext, useState, useEffect } from "react";
+import React, { alert, useContext, useState, useEffect } from "react";
 import {
   StyleSheet,
   TabBarIOS,
@@ -24,9 +24,9 @@ import RegistroProducto from "./RegistroProducto";
 import Food from "../assets/food.png";
 import EditarProducto from "./EditarProducto";
 import EliminarProducto from "./EliminarProducto";
-import NumericInput from 'react-native-numeric-input'
+import NumericInput from "react-native-numeric-input";
 import DateTimePicker from "@react-native-community/datetimepicker";
-
+import LoadingModal from "../components/LoadingModal";
 
 const Stack = createStackNavigator();
 
@@ -88,7 +88,7 @@ const VentasStack = () => {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="Histreti"
         component={Histreti}
         options={{
@@ -107,12 +107,12 @@ const VentasStack = () => {
         }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="Solreti"
         component={Solreti}
         options={{
           title: "Hacer retiro",
-     headerTitleAlign: "center",
+          headerTitleAlign: "center",
           headerStatusBarHeight: 18,
           headerTitleStyle: {
             fontSize: 24,
@@ -126,7 +126,7 @@ const VentasStack = () => {
         }}
       />
 
-    <Stack.Screen
+      <Stack.Screen
         name="VentaDiaria"
         component={VentaDiaria}
         options={{
@@ -145,8 +145,6 @@ const VentasStack = () => {
         }}
       />
     </Stack.Navigator>
-    
-    
   );
 };
 
@@ -184,40 +182,44 @@ const Balance = () => {
   return (
     <>
       <View style={styles.container}>
-        {balance && (
-          <View style={[styles.card, styles.shadow]}>
-            <Text style={styles.titulo}>Balance</Text>
-            <Text style={[styles.titulo, styles.balance]}>
-              $ {balance.balance}
-            </Text>
-          </View>
-        )}
-        <TouchableOpacity
-          style={[styles.buttonBlock, styles.shadow]}
-          onPress={() => navigation.navigate("Ventas")}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.btnText}>Historial de ventas</Text>
-            <Text style={styles.btnIcon}>➡︎</Text>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.buttonBlock, styles.shadow]}
-          onPress={() => navigation.navigate("VentaDiaria")}
-        >
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.btnText}>Venta diaria</Text>
-            <Text style={styles.btnIcon}>➡︎</Text>
-          </View>
-        </TouchableOpacity>
-       
-<TouchableOpacity style={[styles.buttonBlock, styles.shadow]}
-         onPress={() => navigation.navigate("Retiros")}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <Text style={styles.btnText}>Retiros</Text>
-            <Text style={styles.btnIcon}>➡︎</Text>
-          </View>
-        </TouchableOpacity>
+        <ScrollView contentContainerStyle={{ padding: 30 }}>
+          {balance && (
+            <View style={[styles.card, styles.shadow]}>
+              <Text style={styles.titulo}>Balance</Text>
+              <Text style={[styles.titulo, styles.balance]}>
+                $ {balance.balance}
+              </Text>
+            </View>
+          )}
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("Ventas")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Historial de ventas</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("VentaDiaria")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Venta diaria</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("Retiros")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Retiros</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
     </>
   );
@@ -227,16 +229,14 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: "#C0D5E1",
     flex: 1,
-    alignItems: "center",
-    padding: 20,
   },
   container2: {
     backgroundColor: "#C0D5E1",
     flex: 1,
     alignItems: "center",
     padding: 20,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1
+    borderBottomColor: "black",
+    borderBottomWidth: 1,
   },
   agregarNuevoBtn: {
     marginTop: 20,
@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     padding: 20,
-    textDecorationLine: 'underline'
+    textDecorationLine: "underline",
   },
   card: {
     backgroundColor: "white",
@@ -288,7 +288,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginVertical: 20,
     padding: 20,
-    
   },
   card2: {
     backgroundColor: "white",
@@ -297,7 +296,6 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     marginVertical: 20,
     padding: 25,
-    
   },
 
   balance: {
@@ -411,178 +409,317 @@ const Ventas = () => {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {items ? (
-        <View style={styles.card}>
-          {grafica ? (
-            <BarChart
-              style={{
-                marginVertical: 8,
-                borderRadius: 16,
-              }}
-              data={graphData}
-              width={Dimensions.get("window").width * 0.8}
-              height={400}
-              yAxisLabel="$"
-              chartConfig={chartConfig}
-              verticalLabelRotation={90}
-              fromZero={true}
-            />
-          ) : (
-            <>
-              <View
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={{ padding: 30 }}>
+        {items ? (
+          <View style={styles.card}>
+            {grafica ? (
+              <BarChart
                 style={{
-                  ...styles.row,
-                  backgroundColor: "#E99125",
-                  borderTopLeftRadius: 20,
-                  borderTopRightRadius: 20,
+                  marginVertical: 8,
+                  borderRadius: 16,
                 }}
-              >
-                <Text style={{ ...styles.column1, fontWeight: "bold" }}>
-                  Mes
-                </Text>
-                <Text style={{ ...styles.column2, fontWeight: "bold" }}>
-                  Ventas
-                </Text>
-              </View>
-              <View>
-                <FlatList
-                  data={items}
-                  renderItem={renderItem}
-                  keyExtractor={(item) => item.mes}
-                />
-              </View>
-              <View
+                data={graphData}
+                width={Dimensions.get("window").width * 0.8}
+                height={400}
+                yAxisLabel="$"
+                chartConfig={chartConfig}
+                verticalLabelRotation={90}
+                fromZero={true}
+              />
+            ) : (
+              <>
+                <View
+                  style={{
+                    ...styles.row,
+                    backgroundColor: "#E99125",
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                  }}
+                >
+                  <Text style={{ ...styles.column1, fontWeight: "bold" }}>
+                    Mes
+                  </Text>
+                  <Text style={{ ...styles.column2, fontWeight: "bold" }}>
+                    Ventas
+                  </Text>
+                </View>
+                <View>
+                  <FlatList
+                    data={items}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.mes}
+                  />
+                </View>
+                <View
+                  style={{
+                    ...styles.row,
+                    backgroundColor: "#FFE0BA",
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                  }}
+                ></View>
+              </>
+            )}
+            <View
+              style={{
+                ...styles.row,
+                justifyContent: "space-around",
+                marginVertical: 5,
+              }}
+            >
+              <TouchableOpacity
                 style={{
-                  ...styles.row,
-                  backgroundColor: "#FFE0BA",
-                  borderBottomLeftRadius: 20,
-                  borderBottomRightRadius: 20,
+                  ...[styles.column1, styles.shadow],
+                  backgroundColor: "#1E6995",
+                  width: "40%",
+                  paddingVertical: 5,
+                  borderRadius: 10,
                 }}
-              ></View>
-            </>
-          )}
-          <View
-            style={{
-              ...styles.row,
-              justifyContent: "space-around",
-              marginVertical: 5,
-            }}
-          >
-            <TouchableOpacity
-              style={{
-                ...[styles.column1, styles.shadow],
-                backgroundColor: "#1E6995",
-                width: "40%",
-                paddingVertical: 5,
-                borderRadius: 10,
-              }}
-              onPress={() => setGrafica(false)}
-            >
-              <Text
-                style={{ fontSize: 20, textAlign: "center", color: "white" }}
+                onPress={() => setGrafica(false)}
               >
-                Tabla
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                ...[styles.column2, styles.shadow],
-                backgroundColor: "#1E6995",
-                width: "40%",
-                paddingVertical: 5,
-                borderRadius: 10,
-              }}
-              onPress={() => setGrafica(true)}
-            >
-              <Text
-                style={{ fontSize: 20, textAlign: "center", color: "white" }}
+                <Text
+                  style={{ fontSize: 20, textAlign: "center", color: "white" }}
+                >
+                  Tabla
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={{
+                  ...[styles.column2, styles.shadow],
+                  backgroundColor: "#1E6995",
+                  width: "40%",
+                  paddingVertical: 5,
+                  borderRadius: 10,
+                }}
+                onPress={() => setGrafica(true)}
               >
-                Grafica
-              </Text>
-            </TouchableOpacity>
+                <Text
+                  style={{ fontSize: 20, textAlign: "center", color: "white" }}
+                >
+                  Grafica
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      ) : (
-        <Text style={styles.title}>Aun no tienes ventas</Text>
-      )}
-    </ScrollView>
+        ) : (
+          <Text style={styles.title}>Aun no tienes ventas</Text>
+        )}
+      </ScrollView>
+    </View>
   );
 };
-
 
 const Retiros = () => {
   const navigation = useNavigation();
   return (
-  <>
-  <View style={styles.container}>
-    
-    <TouchableOpacity
-      style={[styles.buttonBlock, styles.shadow]}
-      onPress={() => navigation.navigate("Histreti")}
-    >
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text style={styles.btnText}>Historial de retiros</Text>
-        <Text style={styles.btnIcon}>➡︎</Text>
+    <>
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={{ padding: 30 }}>
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("Histreti")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Historial de retiros</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.buttonBlock, styles.shadow]}
+            onPress={() => navigation.navigate("Solreti")}
+          >
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Text style={styles.btnText}>Solicitar retiro</Text>
+              <Text style={styles.btnIcon}>➡︎</Text>
+            </View>
+          </TouchableOpacity>
+        </ScrollView>
       </View>
-    </TouchableOpacity>
-    <TouchableOpacity style={[styles.buttonBlock, styles.shadow]}
-     onPress={() => navigation.navigate("Solreti")}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Text style={styles.btnText}>Solicitar retiro</Text>
-        <Text style={styles.btnIcon}>➡︎</Text>
-      </View>
-    </TouchableOpacity>
-  </View>
-</>
-  )
+    </>
+  );
 };
 
 const Histreti = () => {
- return(
-  <>
-  <View style={styles.container}>
-        <Text style={styles.title}>Aun no has hecho retiros</Text>
-        </View>
-        </>
+  const { tienda } = useContext(TiendaContext);
+  const [items, setItems] = useState(undefined);
 
+  const fetchItems = async () => {
+    const datos = await fetch(
+      `http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v2/openpay/tienda/${tienda.id}/retiros`
+    );
+    const resp = await datos.json();
+    if (resp.error) {
+      return undefined;
+    }
+    return resp.datos;
+  };
+
+  const formatDate = (utc) => {
+    const dateObj = new Date(utc);
+    var month = String(dateObj.getUTCMonth() + 1).padStart(2, "0");
+    var day = String(dateObj.getUTCDate()).padStart(2, "0");
+    var year = dateObj.getUTCFullYear();
+    return year + "-" + month + "-" + day;
+  };
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "in_progress":
+        return { backgroundColor: "yellow" };
+      case "failed":
+        return { backgroundColor: "red" };
+        return;
+      case "completed":
+        return { backgroundColor: "green" };
+    }
+  };
+
+  const renderItem = ({ item }) => (
+    <View
+      style={{
+        ...styles.row,
+        backgroundColor: "#FFE0BA",
+        justifyContent: "space-between",
+      }}
+    >
+      <Text>{formatDate(item.creation_date)}</Text>
+      <Text>$ {item.amount}</Text>
+      <Text style={getStatusColor(item.status)}>{item.status}</Text>
+    </View>
+  );
+
+  useEffect(() => {
+    let isMounted = true;
+    if (isMounted) {
+      fetchItems().then((json) => {
+        setItems(json);
+      });
+    }
+    return () => (isMounted = false);
+  });
+  return (
+    <>
+      <View style={styles.container}>
+        <ScrollView contentContainerStyle={{ padding: 30 }}>
+          {items === undefined ? (
+            <Text style={styles.title}>Aun no has hecho retiros</Text>
+          ) : (
+            <>
+              <View style={{ width: "100%" }}>
+                <View
+                  style={{
+                    ...styles.row,
+                    backgroundColor: "#E99125",
+                    justifyContent: "space-between",
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                  }}
+                >
+                  <Text style={styles.titulo}>Fecha</Text>
+                  <Text style={styles.titulo}> Monto</Text>
+                  <Text style={styles.titulo}> Status</Text>
+                </View>
+                <FlatList
+                  data={items}
+                  renderItem={renderItem}
+                  keyExtractor={(item) => item.id}
+                />
+                <View
+                  style={{
+                    ...styles.row,
+                    backgroundColor: "#FFE0BA",
+                    borderBottomLeftRadius: 20,
+                    borderBottomRightRadius: 20,
+                  }}
+                ></View>
+              </View>
+            </>
+          )}
+        </ScrollView>
+      </View>
+    </>
   );
 };
 
 const Solreti = () => {
+  const [cantidad, setCantidad] = useState(100.0);
+  const { tienda } = useContext(TiendaContext);
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+  const { navigation } = useNavigation();
 
-  return(
-   <>
-   <View style={styles.container}>
-   <View style={[styles.card2, styles.shadow]}>
-         <Text style={styles.titulo}>Cantidad</Text>
-         <NumericInput 
-        onChange={value => console.log(value)} 
-         rounded
-         minValue	= {0}
-         valueType='real'
-         totalWidth={200} 
-         totalHeight={50}   
-         textColor='#B0228C' 
-         iconStyle={{ color: 'white' }} 
-         rightButtonBackgroundColor='#C0D5E1' 
-         leftButtonBackgroundColor='#C0D5E1'/> 
-         </View>
-         <TouchableOpacity
-        style={styles.agregarNuevoBtn}
-        onPress={() =>  console.log('Solicitando')}
-      >
-        <Text style={styles.textAgregarNuevoBtn}>Solicitar</Text>
-      </TouchableOpacity>
-      <TouchableOpacity onPress={() =>  console.log('Cancelando')}>
-      <Text style={styles.titulo2}>Cancelar</Text>
-      
-      </TouchableOpacity>
-         </View>
-         </>
-       
-   );
- };
+  const solicitarRetiro = async () => {
+    setLoading(true);
+    setShowModal(true);
+    setMessage("Solicitando retiro");
+    const solicitud = await fetch(
+      "http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v2/openpay/payout",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ amount: cantidad, id_tienda: tienda.id }),
+      }
+    );
+    const resp = await solicitud.json();
+    console.log(resp);
+    if (resp.error) {
+      console.log(resp.error);
+      setLoading(false);
+      setMessage(
+        "Ocurrió un error con la solicitud de tu retiro, intenta mas tarde"
+      );
+      return;
+    }
+    console.log(resp);
+    setLoading(false);
+    setMessage(
+      "Solicitud exitosa! Los cambios se verán reflejados en tu cuenta bancaria en 24 horas"
+    );
+    return;
+  };
+
+  return (
+    <>
+      <View style={{ ...styles.container }}>
+        <ScrollView contentContainerStyle={{ padding: 30 }}>
+          <View style={[styles.card2, styles.shadow]}>
+            <Text style={styles.titulo}>Cantidad</Text>
+            <NumericInput
+              onChange={(value) => setCantidad(value)}
+              rounded
+              value={cantidad}
+              valueType="real"
+              totalWidth={300}
+              totalHeight={50}
+              textColor="#B0228C"
+              iconStyle={{ color: "white" }}
+              rightButtonBackgroundColor="#C0D5E1"
+              leftButtonBackgroundColor="#C0D5E1"
+            />
+          </View>
+          <TouchableOpacity
+            style={{ ...styles.agregarNuevoBtn, alignSelf: "center" }}
+            onPress={() => solicitarRetiro()}
+          >
+            <Text style={styles.textAgregarNuevoBtn}>Solicitar</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log("Cancelando")}>
+            <Text style={styles.titulo2}>Cancelar</Text>
+          </TouchableOpacity>
+          <LoadingModal
+            loading={loading}
+            show={showModal}
+            setShow={setShowModal}
+            message={message}
+          ></LoadingModal>
+        </ScrollView>
+      </View>
+    </>
+  );
+};
 
 const getFormattedDate = (today) => {
   const dd = String(today.getDate()).padStart(2, "0");
@@ -652,59 +789,61 @@ const VentaDiaria = () => {
   );
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <TouchableOpacity
-        style={{
-          ...styles.shadow,
-          backgroundColor: "orange",
-          padding: 10,
-          borderRadius: 20,
-        }}
-        onPress={showDatepicker}
-        title="Show date picker!"
-      >
-        <Text style={{ ...styles.titulo, color: "white" }}>
-          {shortDate.toString()}
-        </Text>
-      </TouchableOpacity>
-      {show && (
-        <DateTimePicker
-          testID="dateTimePicker"
-          value={date}
-          mode={"date"}
-          is24Hour={true}
-          display="default"
-          onChange={onChange}
-        />
-      )}
-
-      <View style={styles.card}>
-        {items && items.length > 0 ? (
-          <>
-            <View
-              style={{
-                ...styles.row,
-                backgroundColor: "#FFE0BA",
-                justifyContent: "space-between",
-              }}
-            >
-              <Text style={{ fontWeight: "bold" }}>ID_orden</Text>
-              <Text style={{ fontWeight: "bold" }}>Usuario</Text>
-              <Text style={{ fontWeight: "bold" }}>Cantidad</Text>
-            </View>
-            <FlatList
-              data={items}
-              renderItem={RenderVenta}
-              keyExtractor={(item) => item.id}
-            />
-          </>
-        ) : (
-          <Text style={styles.titulo}>
-            No se han registrado ventas en esta fecha
+    <View style={styles.container}>
+      <ScrollView contentContainerStyle={{ padding: 30 }}>
+        <TouchableOpacity
+          style={{
+            ...styles.shadow,
+            backgroundColor: "orange",
+            padding: 10,
+            borderRadius: 20,
+          }}
+          onPress={showDatepicker}
+          title="Show date picker!"
+        >
+          <Text style={{ ...styles.titulo, color: "white" }}>
+            {shortDate.toString()}
           </Text>
+        </TouchableOpacity>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            value={date}
+            mode={"date"}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
         )}
-      </View>
-    </ScrollView>
+
+        <View style={styles.card}>
+          {items && items.length > 0 ? (
+            <>
+              <View
+                style={{
+                  ...styles.row,
+                  backgroundColor: "#FFE0BA",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Text style={{ fontWeight: "bold" }}>ID_orden</Text>
+                <Text style={{ fontWeight: "bold" }}>Usuario</Text>
+                <Text style={{ fontWeight: "bold" }}>Cantidad</Text>
+              </View>
+              <FlatList
+                data={items}
+                renderItem={RenderVenta}
+                keyExtractor={(item) => item.id}
+              />
+            </>
+          ) : (
+            <Text style={styles.titulo}>
+              No se han registrado ventas en esta fecha
+            </Text>
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
