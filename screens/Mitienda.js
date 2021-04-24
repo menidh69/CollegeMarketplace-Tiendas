@@ -15,6 +15,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import Editarinfo from "./Editarinfo";
 import Productos from "./Productos";
 import { TiendaContext } from "../TiendaContext";
+import Map from "./Map";
 
 const Stack = createStackNavigator();
 
@@ -48,6 +49,19 @@ const Mitienda = () => {
           },
         }}
       />
+      <Stack.Screen
+        name="Map"
+        component={Map}
+        options={{
+          title: "Ubicación",
+          headerStyle: {
+            backgroundColor: "#C0D5E1",
+            shadowOffset: {
+              height: 0,
+            },
+          },
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -65,6 +79,13 @@ const Mitiendascreen = () => {
         onPress={() => navigation.navigate("Editarinfo", { tienda: tienda })}
       >
         <Text style={styles.edtext}>Editar informacion</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.editinfo}
+        onPress={() => navigation.navigate("Map", { tienda: tienda })}
+      >
+        <Text style={styles.edtext}>Editar Ubicación</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
