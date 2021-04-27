@@ -38,7 +38,9 @@ const Auth = ()=>{
         component={Registro}
         options={{ title: "Sign Up", headerShown: false }}
     />
+
     </AuthStack.Navigator>
+    
 
 )
 }

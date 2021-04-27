@@ -14,6 +14,9 @@ import * as firebase from "firebase";
 import ApiKeys from "./constants/ApiKeys";
 import AsyncStorage from "@react-native-community/async-storage";
 import Auth from "./screens/Auth";
+import { Notifications} from "expo";
+import * as Permissions from "expo-permissions";
+
 
 export default function App() {
   const [user, setUser] = useState(null);

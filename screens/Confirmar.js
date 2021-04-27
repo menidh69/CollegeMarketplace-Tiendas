@@ -93,7 +93,7 @@ const Confirmar = ({navigation})=>{
           "1": "Cooperativa",
           "2": "Puesto",
           "3": "Cafeteria"
-      }
+      } 
       const [modalVisible, setModalVisible] = useState(false);
 
       const uploadImageTienda = async ()=>{
