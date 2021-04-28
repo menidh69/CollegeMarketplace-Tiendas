@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { TextInput, Text, View, StyleSheet, Button, Touchable, TouchableOpacity, Image } from 'react-native';
 import Carrito from '../assets/carrito.png'
+import { Notifications} from "expo";
+import * as Permissions from "expo-permissions";
 
 const Landing = ({navigation})=>{
     const [datos, setDatos] = useState({
@@ -73,6 +75,8 @@ const Landing = ({navigation})=>{
             margin: 30
         }
       });
+      
+
 
     return(
         <View style={styles.container}>
@@ -96,10 +100,12 @@ const Landing = ({navigation})=>{
         </TouchableOpacity>
 
 
+
       </View>
     )
 
+        }
 
-}
+
 
 export default Landing;
