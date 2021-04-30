@@ -16,6 +16,8 @@ import AsyncStorage from "@react-native-community/async-storage";
 import Auth from "./screens/Auth";
 import { Notifications} from "expo";
 import * as Permissions from "expo-permissions";
+import { ExpoTokenContext } from './ExpoTokenContext';
+
 
 
 export default function App() {
@@ -60,12 +62,45 @@ export default function App() {
     let isMounted = true;
     if (isMounted) {
       checkSignedIn();
+      getToken().then(token => {setExpotoken(token) 
+        console.log(token)}).catch(err => console.log(Err))
     }
+
     return () => (isMounted = false);
   }, []);
 
+
+async function registerForPushNotification() {
+    const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+    if (status != 'granted') {
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS)
+    }
+    if (status != 'granted') {
+        alert('Fail')
+        return;
+    }
+   const token = (await Notifications.getExpoPushTokenAsync()).data;
+    console.log("TOKENNN ", token)
+    setExpotoken(token);
+    return token;
+}
+const getToken = async () => {
+  const { status } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+  if (status !== "granted") {
+    return;
+  }
+  const token = await Notifications.getExpoPushTokenAsync();
+  console.log(token);
+  return token;
+};
+
+const [expotoken, setExpotoken] = useState(null);
+    
+
   return (
+    <ExpoTokenContext.Provider value={{ expotoken, setExpotoken }}>
     <NewUserContext.Provider value={{ user, setUser }}>
+      
       <TiendaContext.Provider value={{ tienda, setTienda }}>
         <NavigationContainer>
           <Stack.Navigator>
@@ -91,5 +126,6 @@ export default function App() {
         </NavigationContainer>
       </TiendaContext.Provider>
     </NewUserContext.Provider>
+    </ExpoTokenContext.Provider>
   );
 }
