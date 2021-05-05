@@ -13,9 +13,46 @@ import Mitienda from "./Mitienda";
 import MiCuenta from "./Micuenta";
 import Ventas from "./Ventas";
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { ExpoTokenContext } from "../ExpoTokenContext";
 
 const Home = ({ route }) => {
   const Tab = createBottomTabNavigator();
+  const { expotoken, setExpoToken } = useContext(ExpoTokenContext);
+  const { user, setUser } = useContext(NewUserContext);
+  
+  useEffect(() => {
+    if (user["expoToken"] != expotoken) {
+      console.log("diferentes " + expotoken + user["expoToken"])
+      updateExpoToken();
+    } else {
+      console.log("iguales" + expotoken + user["expoToken"])
+    }
+  }, []);
+
+
+  const updateExpoToken = async () => {
+    const body = {
+      expoToken: expotoken
+    };
+    const response = await fetch(`http://college-mp-env.eba-kwusjvvc.us-east-2.elasticbeanstalk.com/api/v2/usuario/${user.id}/expo-token`,
+      {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      })
+
+    const result = await response.json()
+    console.log("!!! ", result)
+    if (result.error) {
+      console.log("PORQUE ", result.error)
+    } else {
+      console.log("QUE", result)
+    }
+
+
+  }
+
+
 
   return (
     <>
