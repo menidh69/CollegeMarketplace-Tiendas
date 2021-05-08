@@ -1,5 +1,5 @@
 import React, {useState, useContext} from 'react';
-import { View, Modal, Text, TouchableOpacity, StyleSheet, TouchableHighlight, Alert, ActivityIndicator } from 'react-native';
+import { View, Modal, Text, TouchableOpacity, StyleSheet, TouchableHighlight, Alert, ActivityIndicator, ScrollView } from 'react-native';
 import {RegistroContext} from '../RegistroContext';
 import * as firebase from 'firebase';
 
@@ -158,7 +158,7 @@ const Confirmar = ({navigation})=>{
         )
 }
     return(
-        <View style={styles.container}>
+        <ScrollView style={styles.container}>
             <Text style={styles.titleText}>Confirmar datos</Text>
 
 
@@ -250,7 +250,7 @@ const Confirmar = ({navigation})=>{
           </View>
         </View>
       </Modal>
-        </View>
+        </ScrollView>
     )
 }
 export default Confirmar;

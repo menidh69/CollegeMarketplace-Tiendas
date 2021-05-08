@@ -84,7 +84,9 @@ const MicuentaScreen = ({ user }) => {
   const [infoBancaria, setInfoBancaria] = useState(undefined);
   const [cuentaBancaria, setCuentaBancaria] = useState(undefined);
   const logout = () => {
-    setUser(undefined);
+    
+    navigation.reset({ routes: [{ name: "Auth" }] })
+    setUser(null);
     return;
   };
 
@@ -325,7 +327,7 @@ const MicuentaScreen = ({ user }) => {
           loading={loading}
           message={message}
         ></LoadingModal>
-        <TouchableOpacity style={styles.logoutBtn} onPress={logout}>
+        <TouchableOpacity style={styles.logoutBtn} onPress={() => navigation.reset({ routes: [{ name: "Landing" }] })}>
           <Text style={styles.textoAgregarTarjetaBtn}>Cerrar sesión</Text>
         </TouchableOpacity>
       </ScrollView>

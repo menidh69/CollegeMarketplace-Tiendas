@@ -70,7 +70,7 @@ const Body = () => {
         console.log(it[0]);
         setTienda(it[0]);
         setUser(result.user);
-        // navigation.navigate('Home', {id: result.user.id})
+        navigation.navigate('Home')
       }
     } catch (err) {
       console.log(err);
