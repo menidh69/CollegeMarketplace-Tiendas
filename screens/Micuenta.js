@@ -191,7 +191,9 @@ const MicuentaScreen = ({ user }) => {
         contentContainerStyle={{ alignItems: "center", paddingBottom: 60 }}
       >
         <List.Section style={styles.datosPersonales}>
-          <List.Accordion title="Detalles personales">
+          <List.Accordion 
+          title="Detalles personales"
+           >
             <View style={styles.detallesContainer}>
               <View style={styles.imagen}></View>
               <View style={styles.datosPersonalesList}>
@@ -284,7 +286,7 @@ const MicuentaScreen = ({ user }) => {
                     <Text>No has registrado ninguna cuenta bancaria</Text>
                     <View style={styles.agregarTarjetaBtnContainer}>
                       <TouchableOpacity
-                        style={styles.agregarTarjetaBtn}
+                        style={styles.agregarTarjetaBtn2}
                         onPress={handleAgregarCuentaBancaria}
                       >
                         <Text style={styles.textoAgregarTarjetaBtn}>
@@ -342,12 +344,16 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
   datosPersonales: {
-    backgroundColor: "#88CBF1",
+    backgroundColor: "#FFFFFF",
+    
     borderRadius: 25,
     width: "80%",
   },
   datosPersonalesList: {
     padding: 10,
+  },
+  titulos: {
+    fontWeight: 'bold'
   },
   imagen: {
     width: 50,
@@ -376,6 +382,14 @@ const styles = StyleSheet.create({
   agregarTarjetaBtn: {
     marginTop: 20,
     width: "80%",
+    padding: 15,
+    borderRadius: 25,
+    height: 50,
+    backgroundColor: "#16b585",
+  },
+  agregarTarjetaBtn2: {
+    marginTop: 20,
+    width: "105%",
     padding: 15,
     borderRadius: 25,
     height: 50,

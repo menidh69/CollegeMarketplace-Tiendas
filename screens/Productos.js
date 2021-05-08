@@ -140,16 +140,16 @@ const Producto = ({ producto }) => {
           />
         </View>
         <View style={styles.textoProductoContainer}>
-          <Text>{producto.nombre}</Text>
-          <Text>${Number.parseFloat(producto.precio).toFixed(2)}</Text>
+          <Text style={{ fontWeight: 'bold' }}>{producto.nombre}</Text>
+          <Text >${Number.parseFloat(producto.precio).toFixed(2)}</Text>
           <Text>{producto.descripcion}</Text>
         </View>
         <View
           style={{
-            width: "100%",
+            width: "130%",
             alignItems: "center",
             flexDirection: "row",
-            justifyContent: "center",
+            justifyContent: "flex-start",
           }}
         >
           <TouchableOpacity
@@ -158,6 +158,7 @@ const Producto = ({ producto }) => {
               navigation.navigate("EditarProducto", { producto: producto })
             }
           >
+            <Image source={require("../assets/edit.png")} style={styles.icono} />
             <Text style={styles.guardarText}>Editar</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -166,6 +167,7 @@ const Producto = ({ producto }) => {
               navigation.navigate("EliminarProducto", { producto: producto })
             }
           >
+            <Image source={require("../assets/delete.png")} style={styles.icono} />
             <Text style={styles.eliminarText}>Eliminar</Text>
           </TouchableOpacity>
         </View>
@@ -214,6 +216,11 @@ const styles = StyleSheet.create({
     borderRadius: 25,
     backgroundColor: "white",
   },
+  icono: {
+    height: 25,
+    width: 25,
+    marginLeft: 10,
+  },
   logo: {
     borderRadius: 20,
     width: "90%",
@@ -231,6 +238,7 @@ const styles = StyleSheet.create({
   },
   textoProductoContainer: {
     marginLeft: 15,
+    
   },
   guardarBtn: {
     borderRadius: 25,
@@ -239,25 +247,39 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#5db385",
     marginTop: 20,
-    width: "20%",
+    flexDirection: "row",
+    width: "25%",
   },
   guardarText: {
     fontWeight: "bold",
     color: "#fff",
+    marginLeft: 7,
+  },
+  boton: {
+    backgroundColor: "#E2DFDF",
+    borderRadius: 30,
+    width: "70%",
+    height: 45,
+    marginBottom: 20,
+    flexDirection: "row",
+    alignItems: "center",
   },
   eliminarBtn: {
     borderRadius: 25,
     height: 50,
     alignItems: "center",
+    flexDirection: "row",
     justifyContent: "center",
     backgroundColor: "#bf4d4d",
     marginTop: 20,
-    width: "20%",
+    width: "26%",
     marginLeft: 15,
   },
   eliminarText: {
     fontWeight: "bold",
     color: "#fff",
+    marginLeft: 5,
+    
   },
 });
 
